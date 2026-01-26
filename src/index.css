@@ -51,7 +51,7 @@ body {
 
 @keyframes slide-in-right {
   from {
-    opacity: 0;
+    opacity: 1;
     transform: translateX(100%);
   }
   to {
@@ -70,7 +70,7 @@ body {
     transform: translateX(0%);
   }
   to {
-    opacity: 0;
+    opacity: 1;
     transform: translateX(100%);
   }
 }

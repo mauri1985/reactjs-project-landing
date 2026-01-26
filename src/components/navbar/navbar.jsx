@@ -142,15 +142,15 @@ const Navbar = () => {
 
       {/* Menu mobile */}
       <div
-        className={`md:hidden absolute top-0 right-0 h-screen w-5/6 bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400 transition-all duration-300 z-40 ${
+        className={`md:hidden absolute top-0 right-0 h-screen sm:py-6 py-3 w-5/6 bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400 transition-all duration-300 z-40 ${
           isOpen
-            ? "opacity-100 visible animate-slide-in-right"
-            : "opacity-0 invisible animate-slide-out-left"
+            ? "animate-slide-in-right"
+            : "md:opacity-0 invisible animate-slide-out-left"
         }`}
       >
         <div
           key={0}
-          className="py-2 text-center border-b border-white border-white/90 w-full text-white"
+          className="pt-2 pb-3 text-center border-b border-white border-white/90 w-full text-white"
         >
           <span className="text-shadow-lg/30">Inmobiliaria feliz</span>
         </div>
@@ -174,7 +174,7 @@ const Navbar = () => {
           <li>
             <a
               className="sm:text-lg text-sm bg-white/50 px-4 py-2 rounded-full
-                          transition-transform hover:scale-110 inline-block duration-300 text-shadow-lg/30"
+                          transition-transform hover:scale-110 inline-block duration-300 text-shadow-lg/50"
             >
               PUBLICAR PROPIEDAD
             </a>
@@ -193,7 +193,7 @@ const Navbar = () => {
                 }}
               >
                 <i
-                  className={`${link.icon} text-lg text-white text-shadow-lg/30`}
+                  className={`${link.icon} text-lg text-white text-shadow-lg/50`}
                 ></i>
               </a>
             </li>
