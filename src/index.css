@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
+@import "tailwindcss";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+body {
+  font-family: "Google Sans", sans-serif;
+  background-color: #efefef;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.delay-600 {
+  animation-delay: 0.6s;
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(0px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(10px);
+  }
+}
+
+.animate-fade-down {
+  animation: fade-down 0.1s ease-out forwards;
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.35s ease-out forwards;
+}
+
+@keyframes slide-out-left {
+  from {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.animate-slide-out-left {
+  animation: slide-out-left 0.35s ease-out forwards;
+}
