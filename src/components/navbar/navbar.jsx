@@ -13,7 +13,7 @@ const Navbar = () => {
     {
       id: 1,
       title: "Inicio",
-      link: "/",
+      link: "#hero",
     },
     {
       id: 2,
@@ -32,8 +32,13 @@ const Navbar = () => {
     },
     {
       id: 5,
-      title: "Contacto",
+      title: "Inmobiliarias",
       link: "#",
+    },
+    {
+      id: 6,
+      title: "Contacto",
+      link: "#contacto",
     },
   ];
 
@@ -60,7 +65,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400 z-50 shadow-md backdrop-blur-sm h-15 md:h-20">
+    <nav className="fixed top-0 left-0 w-full bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400 z-50 shadow-md/30 backdrop-blur-sm h-15 md:h-20">
       <div className="flex justify-between items-center sm:px-12 sm:py-6 px-4 py-2 h-full">
         <div className="flex">
           <img src={Logo} alt="Logo de la empresa" className="w-[30px] mr-5" />
@@ -114,7 +119,7 @@ const Navbar = () => {
 
         {/* Redes */}
         <div className="hidden md:block">
-          <ul className="flex sm:space-x-8 space-x-4 text-white">
+          <ul className="flex sm:space-x-8 space-x-4 text-white items-center">
             {navbarRedes.map((link) => (
               <li key={link.id}>
                 <a
@@ -129,6 +134,18 @@ const Navbar = () => {
                 </a>
               </li>
             ))}
+            <li className="flex items-center">
+              <a
+                title="Ingresar"
+                className="bg-white/40 px-2 py-1 rounded-full
+                          transition-transform hover:scale-110 inline-block duration-300 text-shadow-lg/30
+                          max-w-[140px] sm:max-w-none"
+              >
+                <a className="overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer">
+                  <i className="bi bi-person-circle hidden lg:inline text-3xl" />
+                </a>
+              </a>
+            </li>
           </ul>
         </div>
       </div>

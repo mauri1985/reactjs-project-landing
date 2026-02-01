@@ -22,7 +22,11 @@ const Hero = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="mt-16 p-3 md:p-5 md:mt-20">
+    <section
+      ref={containerRef}
+      id="hero"
+      className="mt-16 p-3 md:p-5 md:mt-20 scroll-mt-24"
+    >
       <div
         className="relative
                   bg-cover bg-no-repeat bg-center
