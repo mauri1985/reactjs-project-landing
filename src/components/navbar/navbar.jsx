@@ -107,11 +107,11 @@ const Navbar = () => {
                           transition-transform hover:scale-110 inline-block duration-300 text-shadow-lg/30
                           max-w-[140px] sm:max-w-none"
               >
-                <a className="overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer">
+                <p className="overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer">
                   <i className="bi bi-plus mr-2 hidden lg:inline" />
                   PUBLICAR
                   <span className="hidden xl:inline ml-1">PROPIEDAD</span>
-                </a>
+                </p>
               </a>
             </li>
           </ul>
@@ -141,9 +141,9 @@ const Navbar = () => {
                           transition-transform hover:scale-110 inline-block duration-300 text-shadow-lg/30
                           max-w-[140px] sm:max-w-none"
               >
-                <a className="overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer">
+                <p className="overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer">
                   <i className="bi bi-person-circle hidden lg:inline text-3xl" />
-                </a>
+                </p>
               </a>
             </li>
           </ul>

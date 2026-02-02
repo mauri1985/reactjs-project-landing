@@ -1,4 +1,5 @@
 import React from "react";
+import ContactForm from "../ContactForm/ContactForm";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -13,11 +14,14 @@ const Contacto = () => {
   });
 
   return (
-    <div id="contacto" className="p-3 md:p-5 mt-16 md:mt-20 flex scroll-mt-24">
-      <div class="flex flex-col md:grid grid-cols-2 gap-4 md:px-8 md:mx-8">
-        <div className="text-gray-500">
-          <div className="flex flex-col md:flex-row">
-            <div className="flex-1 m-3">
+    <div
+      id="contacto"
+      className="scroll-mt-24 lg:mx-5 mx-3 pt-3 lg:pt-5 mb-3 lg:mb-5"
+    >
+      <div className="flex flex-col lg:grid grid-cols-2 gap-4">
+        <div className="text-gray-500 col-span-1">
+          <div className="flex flex-col lg:flex-row">
+            <div className="flex-1 lg:m-3">
               <div className="h-50 w-full rounded-xl overflow-hidden shadow-md/30">
                 <MapContainer
                   center={[-34.9011, -56.1645]}
@@ -32,10 +36,12 @@ const Contacto = () => {
               </div>
             </div>
             <div className="flex-1 mx-2 text-md">
-              <p className="text-xl md mb-2 mt-2 text-gray-600">Casa central</p>
+              <p className="text-xl mb-2 mt-2 md:py-1 text-gray-600">
+                Casa central
+              </p>
               <p className="mb-2">
                 <i className="bi bi-geo-alt-fill mr-2"></i>
-                Calle Falsa 1234 esq. Desconocida
+                Calle Falsa 1234
               </p>
               <p className="mb-2">
                 <i className="bi bi-telephone-fill mr-2"></i>
@@ -47,17 +53,15 @@ const Contacto = () => {
               </p>
               <p className="mb-2">
                 <i className="bi bi-clock-fill mr-2"></i>
-                Lunes a Viernes 09:00 a 18:00 hs <br />
+                Lunes a Viernes 09:00-18:00 hs <br />
                 Sabados de 10:00 a 13:00 hs
               </p>
             </div>
           </div>
         </div>
-        <div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-          quaerat maiores neque perferendis distinctio ducimus. Temporibus
-          consectetur dolorem reprehenderit pariatur dicta ad, doloremque neque,
-          odio laboriosam tempore praesentium maxime fugiat?
+        <div className="text-gray-500 col-span-1 md:mr-15">
+          {/* Formulario */}
+          <ContactForm></ContactForm>
         </div>
       </div>
     </div>
