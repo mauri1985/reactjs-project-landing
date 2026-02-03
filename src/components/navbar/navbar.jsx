@@ -76,7 +76,7 @@ const Navbar = () => {
 
         {/* Botom hamburguesa */}
         <button
-          className="md:hidden text-white text-shadow-lg/30 z-50"
+          className="lg:hidden text-white text-shadow-lg/30 z-50"
           onClick={toggleMenu}
         >
           {isOpen ? (
@@ -87,7 +87,7 @@ const Navbar = () => {
         </button>
 
         {/* Enlances */}
-        <div className="hidden md:block mr-5">
+        <div className="hidden lg:block mr-5">
           <ul className="flex sm:space-x-8 space-x-4 text-white items-center">
             {navbarLinks.map((link) => (
               <li key={link.id}>
@@ -118,7 +118,7 @@ const Navbar = () => {
         </div>
 
         {/* Redes */}
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <ul className="flex sm:space-x-8 space-x-4 text-white items-center">
             {navbarRedes.map((link) => (
               <li key={link.id}>

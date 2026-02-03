@@ -20,7 +20,7 @@ export default function ContactForm() {
     "w-full border-1 border-gray-300 bg-gray-200 rounded px-3 py-2 focus:outline-none focus:ring-3 focus:ring-blue-300 focus:bg-gray-100";
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-3">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-3 ">
       <p className="text-xl text-gray-600">Contacto</p>
 
       {/* Nombre */}
