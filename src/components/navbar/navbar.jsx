@@ -1,9 +1,13 @@
 import React from "react";
 import Logo from "../../assets/Logo.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const operacionActual = params.get("operacion");
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -19,22 +23,25 @@ const Navbar = () => {
     {
       id: 2,
       title: "Venta",
-      to: "/home",
+      to: "/listado?operacion=venta",
+      operacion: "venta",
     },
     {
       id: 3,
       title: "Alquiler",
-      to: "/home",
+      to: "/listado?operacion=alquiler",
+      operacion: "alquiler",
     },
     {
       id: 4,
       title: "Proyectos",
-      to: "/home",
+      to: "/listado?operacion=proyecto",
+      operacion: "proyecto",
     },
     {
       id: 5,
       title: "Inmobiliarias",
-      to: "/home",
+      to: "/",
     },
     {
       id: 6,
@@ -90,16 +97,30 @@ const Navbar = () => {
         {/* Enlances */}
         <div className="hidden lg:block mr-5">
           <ul className="flex sm:space-x-8 space-x-4 text-white items-center">
-            {navbarLinks.map((link) => (
-              <li key={link.id}>
-                <Link
-                  to={link.to}
-                  className="sm:text-lg text-sm transition-transform hover:scale-110 transform inline-block duration-300 text-shadow-lg/30"
-                >
-                  {link.title}
-                </Link>
-              </li>
-            ))}
+            {navbarLinks.map((link) => {
+              const isQueryLink = !!link.operacion;
+
+              const isQueryActive =
+                isQueryLink &&
+                location.pathname === "/listado" &&
+                operacionActual === link.operacion;
+
+              return (
+                <li key={link.id}>
+                  <NavLink
+                    to={link.to}
+                    className={({ isActive }) => {
+                      const active = isQueryLink ? isQueryActive : isActive;
+
+                      return `sm:text-lg text-sm transition-transform hover:scale-110 transform inline-block duration-300 text-shadow-lg/30 text-white
+                ${active ? "font-bold underline underline-offset-8" : ""}`;
+                    }}
+                  >
+                    {link.title}
+                  </NavLink>
+                </li>
+              );
+            })}
             <li className="flex items-center">
               <a
                 title="PUBLICAR PROPIEDAD"
