@@ -1,32 +1,10 @@
 import React from "react";
 import bgImg from "../../assets/02.jpg";
 import MultiSelect from "../MultiSelect/MultiSelect";
-import { useRef, useEffect } from "react";
 
 const Hero = () => {
-  const containerRef = useRef(null);
-
-  //Cerrar al hacer click afuera
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target)
-      ) {
-        setOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
-    <section
-      ref={containerRef}
-      id="hero"
-      className="mt-16 p-3 md:p-5 md:mt-20 scroll-mt-24"
-    >
+    <section id="hero" className="mt-16 p-3 md:p-5 md:mt-20">
       <div
         className="relative
                   bg-cover bg-no-repeat bg-center

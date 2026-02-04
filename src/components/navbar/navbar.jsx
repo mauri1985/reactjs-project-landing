@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "../../assets/Logo.png";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,32 +14,32 @@ const Navbar = () => {
     {
       id: 1,
       title: "Inicio",
-      link: "#hero",
+      to: "/home",
     },
     {
       id: 2,
       title: "Venta",
-      link: "#",
+      to: "/home",
     },
     {
       id: 3,
       title: "Alquiler",
-      link: "#",
+      to: "/home",
     },
     {
       id: 4,
       title: "Proyectos",
-      link: "#",
+      to: "/home",
     },
     {
       id: 5,
       title: "Inmobiliarias",
-      link: "#",
+      to: "/home",
     },
     {
       id: 6,
       title: "Contacto",
-      link: "#contacto",
+      to: "/contacto",
     },
   ];
 
@@ -91,13 +92,12 @@ const Navbar = () => {
           <ul className="flex sm:space-x-8 space-x-4 text-white items-center">
             {navbarLinks.map((link) => (
               <li key={link.id}>
-                <a
-                  title={link.title}
+                <Link
+                  to={link.to}
                   className="sm:text-lg text-sm transition-transform hover:scale-110 transform inline-block duration-300 text-shadow-lg/30"
-                  href={link.link}
                 >
                   {link.title}
-                </a>
+                </Link>
               </li>
             ))}
             <li className="flex items-center">

@@ -1,14 +1,17 @@
-import Navbar from "./components/navbar/navbar";
-import Hero from "./components/hero/hero";
+import Home from "./components/home/home";
 import Contacto from "./components/contacto/contacto";
+import MainLayout from "./components/MainLayout/MainLayout";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <Navbar></Navbar>
-      <Hero></Hero>
-      <Contacto></Contacto>
-    </div>
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/contacto" element={<Contacto />} />
+      </Route>
+    </Routes>
   );
 }
 
