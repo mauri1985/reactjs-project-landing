@@ -195,15 +195,15 @@ const Navbar = () => {
         <ul className="flex flex-col px-4 py-2 text-white">
           {navbarLinks.map((link) => (
             <li key={link.id} className="py-2 text-center ">
-              <a
+              <NavLink
                 className="hover:text-gray-500 text-shadow-lg/30"
-                href={link.link}
+                to={link.to}
                 onClick={() => {
                   setIsOpen(false);
                 }}
               >
                 {link.title}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>

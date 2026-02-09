@@ -21,7 +21,7 @@ export default function MultiSelect({ label, options, rounded }) {
       ? selected.join(", ")
       : `${selected.slice(0, 2).join(", ")} +${selected.length - 2}`;
 
-  // 👉 Cerrar al hacer click afuera
+  // Cerrar al hacer click afuera
   useEffect(() => {
     function handleClickOutside(event) {
       if (

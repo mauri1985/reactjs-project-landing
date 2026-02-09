@@ -1,113 +1,158 @@
 import { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import Filtro from "../Filtro/filtro";
 
 export default function ListaAnuncios() {
+  const [isOpenFilters, setIsOpenFilters] = useState(false);
+  const [isOpenOrder, setIsOpenOrder] = useState(false);
+  const orderRef = useRef(null);
+
+  //Cerrar al hacer click afuera del ordenar por
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (orderRef.current && !orderRef.current.contains(e.target)) {
+        setIsOpenOrder(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleFilters = () => {
+    setIsOpenFilters(!isOpenFilters);
+    setIsOpenOrder(false);
+  };
+
+  const toggleOrder = () => {
+    setIsOpenOrder(!isOpenOrder);
+  };
+
+  //TODO: Obtener con un fetch
+  const tipoOperaciones = [
+    { codigo: 1, descripcion: "Venta", cantidad: 550 },
+    { codigo: 2, descripcion: "Alquiler", cantidad: 300 },
+    { codigo: 3, descripcion: "Alquiler temporada", cantidad: 150 },
+    { codigo: 4, descripcion: "Alquiler anual", cantidad: 3 },
+  ];
+
+  //TODO: Obtener con un fetch
+  const tipoPropiedades = [
+    { codigo: 1, descripcion: "Casa", cantidad: 5 },
+    { codigo: 2, descripcion: "Apartamento", cantidad: 15 },
+    { codigo: 3, descripcion: "Terreno", cantidad: 32 },
+    { codigo: 4, descripcion: "Local comercial", cantidad: 12 },
+    { codigo: 5, descripcion: "Oificina", cantidad: 6 },
+    { codigo: 6, descripcion: "Chacra", cantidad: 8 },
+  ];
+
+  //TODO: Obtener con un fetch
+  const departamento = [
+    { codigo: 1, descripcion: "Montevideo", cantidad: 5 },
+    { codigo: 2, descripcion: "Canelones", cantidad: 15 },
+    { codigo: 3, descripcion: "Rocha", cantidad: 32 },
+    { codigo: 4, descripcion: "Maldonado", cantidad: 12 },
+    { codigo: 5, descripcion: "San Jose", cantidad: 6 },
+    { codigo: 6, descripcion: "Artigas", cantidad: 8 },
+  ];
+
   const [params] = useSearchParams();
   const operacion = params.get("operacion");
 
-  const tipoOperaciones = [
-    { codOperacion: 1, descOperacion: "Venta", cantidad: 550 },
-    { codOperacion: 2, descOperacion: "Alquiler", cantidad: 300 },
-    { codOperacion: 3, descOperacion: "Alquiler temporada", cantidad: 150 },
-  ];
-
-  const tipoPropiedades = [
-    { codTipoProp: 1, descTipoProp: "Casa", cantidad: 5 },
-    { codTipoProp: 2, descTipoProp: "Apartamento", cantidad: 15 },
-    { codTipoProp: 3, descTipoProp: "Terreno", cantidad: 32 },
-    { codTipoProp: 4, descTipoProp: "Local comercial", cantidad: 12 },
-    { codTipoProp: 5, descTipoProp: "Oificina", cantidad: 6 },
-    { codTipoProp: 6, descTipoProp: "Chacra", cantidad: 8 },
-  ];
-
-  const departamento = [
-    { codDepto: 1, descDepto: "Montevideo", cantidad: 5 },
-    { codDepto: 2, descDepto: "Canelones", cantidad: 15 },
-    { codDepto: 3, descDepto: "Rocha", cantidad: 32 },
-    { codDepto: 4, descDepto: "Maldonado", cantidad: 12 },
-    { codDepto: 5, descDepto: "San Jose", cantidad: 6 },
-    { codDepto: 6, descDepto: "Artigas", cantidad: 8 },
-  ];
   return (
     <>
-      <div class="flex flex-row justify-center">
-        <div class="w-5/6">
-          <div className="flex flex-row">
-            <div class="lg:w-2/6 max-w-[300px] m-5">
-              <div className="flex flex-col gap-4 ">
-                <div className="bg-blue-200/30 py-5">
-                  <div className="text-xl mb-2 text-gray-600 text-center">
-                    Tipo de operación
-                  </div>
-                  <ul>
-                    {tipoOperaciones.map((tipoOperacion) => (
-                      <li>
-                        <label
-                          key={tipoOperacion.descOperacion}
-                          className="flex justify-between items-center gap-2 lg:px-4 lg:py-2 px-2 py-1 cursor-pointer hover:bg-gray-100 text-sm text-gray-600"
-                        >
-                          {tipoOperacion.descOperacion} (
-                          {tipoOperacion.cantidad})
-                          <input
-                            type="checkbox"
-                            // checked={selected.includes(option)}
-                            // onChange={() => toggleOption(option)}
-                            className="accent-blue-500"
-                          />
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
+      <div id="filtros" className="flex flex-row justify-center">
+        <div className="w-5/6">
+          <div className="flex lg:hidden flex-row gap-3 items-center text-left mt-3">
+            <div className="">
+              <button
+                className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
+                onClick={toggleFilters}
+              >
+                <div>
+                  <i className="bi bi-filter text-sm mr-2"></i>
                 </div>
-                <div className="bg-blue-200/30 py-5">
-                  <div className="text-xl mb-2 text-gray-600 text-center">
-                    Tipo de propiedad
-                  </div>
-                  <ul>
-                    {tipoPropiedades.map((tipoProp) => (
-                      <li>
-                        <label
-                          key={tipoProp.descTipoProp}
-                          className="flex justify-between items-center gap-2 lg:px-4 lg:py-2 px-2 py-1 cursor-pointer hover:bg-gray-100 text-sm text-gray-600"
-                        >
-                          {tipoProp.descTipoProp} ({tipoProp.cantidad})
-                          <input
-                            type="checkbox"
-                            // checked={selected.includes(option)}
-                            // onChange={() => toggleOption(option)}
-                            className="accent-blue-500"
-                          />
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
+                <div>Filtros</div>
+                <div>
+                  {isOpenFilters ? (
+                    <i className="bi bi-caret-up-fill ml-2"></i>
+                  ) : (
+                    <i className="bi bi-caret-down-fill ml-2"></i>
+                  )}
                 </div>
-                <div className="bg-blue-200/30 py-5">
-                  <div className="text-xl mb-2 text-gray-600 text-center">
-                    Departamento
-                  </div>
-                  <ul>
-                    {departamento.map((depto) => (
-                      <li>
-                        <label
-                          key={depto.descDepto}
-                          className="flex justify-between items-center gap-2 lg:px-4 lg:py-2 px-2 py-1 cursor-pointer hover:bg-gray-100 text-sm text-gray-600"
-                        >
-                          {depto.descDepto} ({depto.cantidad})
-                          <input
-                            type="checkbox"
-                            // checked={selected.includes(option)}
-                            // onChange={() => toggleOption(option)}
-                            className="accent-blue-500"
-                          />
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
+              </button>
+            </div>
+            <div className="min-w-[45px]">
+              <button className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold">
+                <div>
+                  <i className="bi bi-map-fill mr-2"></i>
                 </div>
+                <div>Mapa</div>
+              </button>
+            </div>
+            <div ref={orderRef}>
+              <button
+                className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-md text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
+                onClick={toggleOrder}
+              >
+                <div>
+                  <i className="bi bi-sort-down text-sm mr-2"></i>
+                </div>
+                <div>Ordenar por</div>
+                <div>
+                  {isOpenOrder ? (
+                    <i className="bi bi-caret-up-fill ml-2"></i>
+                  ) : (
+                    <i className="bi bi-caret-down-fill ml-2"></i>
+                  )}
+                </div>
+              </button>
+              {isOpenOrder ? (
+                <div className="absolute animate-fade-down text-md text-gray-500 bg-white z-50 shadow-md">
+                  <div className="flex flex-col">
+                    <button
+                      className="text-left p-2 border-t-2 border-l-2 border-r-2 border-gray-400/50"
+                      onClick={toggleOrder}
+                    >
+                      <i className="bi bi-sort-numeric-down mr-3"></i>Menor
+                      precio
+                    </button>
+                    <button
+                      className="text-left p-2 border-2 border-gray-400/50"
+                      onClick={toggleOrder}
+                    >
+                      <i className="bi bi-sort-numeric-down-alt mr-3"></i>Mayor
+                      precio
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+          <div className="flex lg:flex-row flex-col lg:m-3 gap-3">
+            <div
+              className={`lg:w-2/6 max-w-[400px]
+              lg:block
+              ${isOpenFilters ? "block animate-fade-down" : "hidden"}
+              lg:animate-none`}
+            >
+              <div className="flex flex-col gap-4">
+                <Filtro
+                  title="Tipo de operación"
+                  options={tipoOperaciones}
+                  hidden="hidden"
+                />
+                <Filtro title="Tipo de propiedad" options={tipoPropiedades} />
+                <Filtro title="Departamentos" options={departamento} />
               </div>
             </div>
-            <div class="w-full bg-blue-500/30 text-center m-5 ">
+
+            <div className="lg:w-full bg-blue-500/30 text-center mt-3 lg:mt-0">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, nam
               fugit blanditiis ducimus at maiores vitae enim nisi dicta animi
               illo fugiat voluptatibus dolore recusandae atque. Necessitatibus
