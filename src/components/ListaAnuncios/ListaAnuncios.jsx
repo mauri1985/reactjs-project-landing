@@ -63,108 +63,140 @@ export default function ListaAnuncios() {
   const operacion = params.get("operacion");
 
   return (
-    <>
-      <div id="filtros" className="flex flex-row justify-center">
-        <div className="w-5/6">
-          <div className="flex lg:hidden flex-row gap-3 items-center text-left mt-3">
-            <div className="">
-              <button
-                className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
-                onClick={toggleFilters}
-              >
-                <div>
-                  <i className="bi bi-filter text-sm mr-2"></i>
-                </div>
-                <div>Filtros</div>
-                <div>
-                  {isOpenFilters ? (
-                    <i className="bi bi-caret-up-fill ml-2"></i>
-                  ) : (
-                    <i className="bi bi-caret-down-fill ml-2"></i>
-                  )}
-                </div>
-              </button>
+    <div
+      id="listaAnuncios"
+      className="flex flex-col items-center w-full gap-3 pt-3"
+    >
+      {/* Barra superior (desktop) */}
+      <div className="lg:flex flex-row hidden mx-3 p-3 w-5/6 gap-3 justify-end">
+        <div id="divBtnMapa">
+          <button className="text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] font-bold">
+            <i className="bi bi-map-fill mr-2"></i>
+            Mapa
+          </button>
+        </div>
+        <div id="divBtnOrdenar" ref={orderRef}>
+          <button
+            className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-md text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
+            onClick={toggleOrder}
+          >
+            <div>
+              <i className="bi bi-sort-down text-sm mr-2"></i>
             </div>
-            <div className="min-w-[45px]">
-              <button className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold">
-                <div>
-                  <i className="bi bi-map-fill mr-2"></i>
-                </div>
-                <div>Mapa</div>
-              </button>
-            </div>
-            <div ref={orderRef}>
-              <button
-                className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-md text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
-                onClick={toggleOrder}
-              >
-                <div>
-                  <i className="bi bi-sort-down text-sm mr-2"></i>
-                </div>
-                <div>Ordenar por</div>
-                <div>
-                  {isOpenOrder ? (
-                    <i className="bi bi-caret-up-fill ml-2"></i>
-                  ) : (
-                    <i className="bi bi-caret-down-fill ml-2"></i>
-                  )}
-                </div>
-              </button>
+            <div>Ordenar por</div>
+            <div>
               {isOpenOrder ? (
-                <div className="absolute animate-fade-down text-md text-gray-500 bg-white z-50 shadow-md">
-                  <div className="flex flex-col">
-                    <button
-                      className="text-left p-2 border-t-2 border-l-2 border-r-2 border-gray-400/50"
-                      onClick={toggleOrder}
-                    >
-                      <i className="bi bi-sort-numeric-down mr-3"></i>Menor
-                      precio
-                    </button>
-                    <button
-                      className="text-left p-2 border-2 border-gray-400/50"
-                      onClick={toggleOrder}
-                    >
-                      <i className="bi bi-sort-numeric-down-alt mr-3"></i>Mayor
-                      precio
-                    </button>
-                  </div>
-                </div>
+                <i className="bi bi-caret-up-fill ml-2"></i>
               ) : (
-                <></>
+                <i className="bi bi-caret-down-fill ml-2"></i>
               )}
             </div>
-          </div>
-          <div className="flex lg:flex-row flex-col lg:m-3 gap-3">
-            <div
-              className={`lg:w-2/6 max-w-[400px]
-              lg:block
-              ${isOpenFilters ? "block animate-fade-down" : "hidden"}
-              lg:animate-none`}
-            >
-              <div className="flex flex-col gap-4">
-                <Filtro
-                  title="Tipo de operación"
-                  options={tipoOperaciones}
-                  hidden="hidden"
-                />
-                <Filtro title="Tipo de propiedad" options={tipoPropiedades} />
-                <Filtro title="Departamentos" options={departamento} />
+          </button>
+          {isOpenOrder ? (
+            <div className="absolute animate-fade-down text-md text-gray-600 bg-white z-50 shadow-md">
+              <div className="flex flex-col">
+                <button
+                  className="text-left p-2 border-b-1 border-gray-400"
+                  onClick={toggleOrder}
+                >
+                  <i className="bi bi-sort-numeric-down mr-3"></i>Menor precio
+                </button>
+                <button className="text-left p-2" onClick={toggleOrder}>
+                  <i className="bi bi-sort-numeric-down-alt mr-3"></i>
+                  Mayor precio
+                </button>
               </div>
             </div>
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
 
-            <div className="lg:w-full bg-blue-500/30 text-center mt-3 lg:mt-0">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et, nam
-              fugit blanditiis ducimus at maiores vitae enim nisi dicta animi
-              illo fugiat voluptatibus dolore recusandae atque. Necessitatibus
-              quidem vitae architecto. Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Nesciunt vitae quidem consequatur fugit, ullam
-              quo exercitationem quasi sit sequi aspernatur inventore enim
-              dignissimos. Incidunt, harum officia perferendis repellendus
-              quaerat explicabo.
+      {/* Contenedor principal */}
+      <div className="w-5/6 flex flex-col gap-3">
+        {/* Acciones mobile */}
+        <div className="flex lg:hidden flex-row gap-3 items-center">
+          <button
+            className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] font-bold"
+            onClick={toggleFilters}
+          >
+            <i className="bi bi-filter mr-2"></i>
+            Filtros
+            <i
+              className={`bi ml-2 ${
+                isOpenFilters ? "bi-caret-up-fill" : "bi-caret-down-fill"
+              }`}
+            ></i>
+          </button>
+
+          <button className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] font-bold">
+            <i className="bi bi-map-fill mr-2"></i>
+            Mapa
+          </button>
+
+          <div ref={orderRef}>
+            <button
+              className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-md text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
+              onClick={toggleOrder}
+            >
+              <div>
+                <i className="bi bi-sort-down text-sm mr-2"></i>
+              </div>
+              <div>Ordenar por</div>
+              <div>
+                {isOpenOrder ? (
+                  <i className="bi bi-caret-up-fill ml-2"></i>
+                ) : (
+                  <i className="bi bi-caret-down-fill ml-2"></i>
+                )}
+              </div>
+            </button>
+            {isOpenOrder ? (
+              <div className="absolute animate-fade-down text-md text-gray-600 bg-white z-50 shadow-md">
+                <div className="flex flex-col">
+                  <button
+                    className="text-left p-2 border-b-1 border-gray-400"
+                    onClick={toggleOrder}
+                  >
+                    <i className="bi bi-sort-numeric-down mr-3"></i>Menor precio
+                  </button>
+                  <button className="text-left p-2" onClick={toggleOrder}>
+                    <i className="bi bi-sort-numeric-down-alt mr-3"></i>
+                    Mayor precio
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+
+        {/* Filtros + listado */}
+        <div className="flex flex-col lg:flex-row gap-3">
+          {/* Filtros */}
+          <div
+            className={`
+            lg:w-2/6 max-w-[400px]
+            lg:block
+            ${isOpenFilters ? "block animate-fade-down" : "hidden"}
+            lg:animate-none
+          `}
+          >
+            <div className="flex flex-col gap-4">
+              <Filtro title="Tipo de operación" options={tipoOperaciones} />
+              <Filtro title="Tipo de propiedad" options={tipoPropiedades} />
+              <Filtro title="Departamentos" options={departamento} />
             </div>
+          </div>
+
+          {/* Listado */}
+          <div className="lg:flex-1 bg-blue-500/30 text-center">
+            Lorem ipsum...
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
