@@ -1,18 +1,20 @@
 import { React, useState } from "react";
 
-export default function Filtro({ title, options, hidden }) {
+export default function Filtro({ title, options }) {
   const [open, setOpen] = useState(false);
   const visibles = options.slice(0, 3);
   const extras = options.slice(3);
 
   return (
-    <div className="bg-blue-200/30 py-5 px-2">
-      <div className="text-xl mb-2 text-gray-600 text-center">{title}</div>
+    <div className="bg-blue-200/30 py-5 px-2 shadow-sm">
+      <div className="text-md font-bold mb-2 text-gray-600 text-center">
+        {title}
+      </div>
 
       <ul>
         {visibles.map((options) => (
           <li key={options.codigo}>
-            <label className="flex justify-between items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-100 text-sm text-gray-600">
+            <label className="flex justify-between items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-100 text-xs text-gray-600">
               {options.descripcion} ({options.cantidad})
               <input type="checkbox" className="accent-blue-500" />
             </label>
