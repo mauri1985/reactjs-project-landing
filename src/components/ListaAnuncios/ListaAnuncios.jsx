@@ -4,14 +4,36 @@ import Filtro from "../Filtro/filtro";
 
 export default function ListaAnuncios() {
   const [isOpenFilters, setIsOpenFilters] = useState(false);
-  const [isOpenOrder, setIsOpenOrder] = useState(false);
-  const orderRef = useRef(null);
+  const [isOpenOrderMobile, setIsOpenOrderMobile] = useState(false);
+  const [isOpenOrderDesktop, setIsOpenOrderDesktop] = useState(false);
+  const orderRefDesktop = useRef(null);
+  const orderRefMobile = useRef(null);
 
   //Cerrar al hacer click afuera del ordenar por
   useEffect(() => {
     function handleClickOutside(e) {
-      if (orderRef.current && !orderRef.current.contains(e.target)) {
-        setIsOpenOrder(false);
+      if (
+        orderRefMobile.current &&
+        !orderRefMobile.current.contains(e.target)
+      ) {
+        setIsOpenOrderMobile(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (
+        orderRefDesktop.current &&
+        !orderRefDesktop.current.contains(e.target)
+      ) {
+        setIsOpenOrderDesktop(false);
       }
     }
 
@@ -24,11 +46,14 @@ export default function ListaAnuncios() {
 
   const toggleFilters = () => {
     setIsOpenFilters(!isOpenFilters);
-    setIsOpenOrder(false);
   };
 
-  const toggleOrder = () => {
-    setIsOpenOrder(!isOpenOrder);
+  const toggleOrderMobile = () => {
+    setIsOpenOrderMobile(!isOpenOrderMobile);
+  };
+
+  const toggleOrderDesktop = () => {
+    setIsOpenOrderDesktop(!isOpenOrderDesktop);
   };
 
   //TODO: Obtener con un fetch
@@ -70,38 +95,38 @@ export default function ListaAnuncios() {
       {/* Barra superior (desktop) */}
       <div className="lg:flex flex-row hidden mx-3 p-3 w-5/6 gap-3 justify-end">
         <div id="divBtnMapa">
-          <button className="text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] font-bold">
+          <button className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold">
             <i className="bi bi-map-fill mr-2"></i>
-            Mapa
+            Mostrar mapa
           </button>
         </div>
-        <div id="divBtnOrdenar" ref={orderRef}>
+        <div id="divBtnOrdenar" ref={orderRefDesktop}>
           <button
             className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-md text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
-            onClick={toggleOrder}
+            onClick={toggleOrderDesktop}
           >
             <div>
               <i className="bi bi-sort-down text-sm mr-2"></i>
             </div>
             <div>Ordenar por</div>
             <div>
-              {isOpenOrder ? (
+              {isOpenOrderDesktop ? (
                 <i className="bi bi-caret-up-fill ml-2"></i>
               ) : (
                 <i className="bi bi-caret-down-fill ml-2"></i>
               )}
             </div>
           </button>
-          {isOpenOrder ? (
+          {isOpenOrderDesktop ? (
             <div className="absolute animate-fade-down text-md text-gray-600 bg-white z-50 shadow-md">
               <div className="flex flex-col">
                 <button
                   className="text-left p-2 border-b-1 border-gray-400"
-                  onClick={toggleOrder}
+                  onClick={toggleOrderDesktop}
                 >
                   <i className="bi bi-sort-numeric-down mr-3"></i>Menor precio
                 </button>
-                <button className="text-left p-2" onClick={toggleOrder}>
+                <button className="text-left p-2" onClick={toggleOrderDesktop}>
                   <i className="bi bi-sort-numeric-down-alt mr-3"></i>
                   Mayor precio
                 </button>
@@ -111,6 +136,16 @@ export default function ListaAnuncios() {
             <></>
           )}
         </div>
+        <div id="divList">
+          <button className="text-gray-500 bg-blue-200/50 py-1 px-2 rounded-md shadow-sm min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold">
+            <i className="bi bi-list-ul"></i>
+          </button>
+        </div>
+        <div id="divGrid">
+          <button className="text-gray-500 bg-blue-200/50 py-1 px-2 rounded-md shadow-sm min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold">
+            <i className="bi bi-grid-3x3"></i>
+          </button>
+        </div>
       </div>
 
       {/* Contenedor principal */}
@@ -118,7 +153,7 @@ export default function ListaAnuncios() {
         {/* Acciones mobile */}
         <div className="flex lg:hidden flex-row gap-3 items-center">
           <button
-            className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] font-bold"
+            className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
             onClick={toggleFilters}
           >
             <i className="bi bi-filter mr-2"></i>
@@ -130,38 +165,38 @@ export default function ListaAnuncios() {
             ></i>
           </button>
 
-          <button className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] font-bold">
+          <button className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold">
             <i className="bi bi-map-fill mr-2"></i>
             Mapa
           </button>
 
-          <div ref={orderRef}>
+          <div ref={orderRefMobile}>
             <button
               className="flex items-center text-gray-500 bg-blue-200/50 py-1 px-2 rounded-md text-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold"
-              onClick={toggleOrder}
+              onClick={toggleOrderMobile}
             >
               <div>
                 <i className="bi bi-sort-down text-sm mr-2"></i>
               </div>
               <div>Ordenar por</div>
               <div>
-                {isOpenOrder ? (
+                {isOpenOrderMobile ? (
                   <i className="bi bi-caret-up-fill ml-2"></i>
                 ) : (
                   <i className="bi bi-caret-down-fill ml-2"></i>
                 )}
               </div>
             </button>
-            {isOpenOrder ? (
+            {isOpenOrderMobile ? (
               <div className="absolute animate-fade-down text-md text-gray-600 bg-white z-50 shadow-md">
                 <div className="flex flex-col">
                   <button
                     className="text-left p-2 border-b-1 border-gray-400"
-                    onClick={toggleOrder}
+                    onClick={toggleOrderMobile}
                   >
                     <i className="bi bi-sort-numeric-down mr-3"></i>Menor precio
                   </button>
-                  <button className="text-left p-2" onClick={toggleOrder}>
+                  <button className="text-left p-2" onClick={toggleOrderMobile}>
                     <i className="bi bi-sort-numeric-down-alt mr-3"></i>
                     Mayor precio
                   </button>
