@@ -9,6 +9,14 @@ export default function ListaAnuncios() {
   const orderRefDesktop = useRef(null);
   const orderRefMobile = useRef(null);
 
+  const images = [
+    "https://picsum.photos/id/1018/600/400",
+    "https://picsum.photos/id/1015/600/400",
+    "https://picsum.photos/id/1019/600/400",
+  ];
+
+  const [current, setCurrent] = useState(0);
+
   const BedIcon = ({ className }) => (
     <svg viewBox="0 0 640 512" className={className} fill="currentColor">
       <path d="M64 96C81.7 96 96 110.3 96 128L96 352L320 352L320 224C320 206.3 334.3 192 352 192L512 192C565 192 608 235 608 288L608 512C608 529.7 593.7 544 576 544C558.3 544 544 529.7 544 512L544 448L96 448L96 512C96 529.7 81.7 544 64 544C46.3 544 32 529.7 32 512L32 128C32 110.3 46.3 96 64 96zM144 256C144 220.7 172.7 192 208 192C243.3 192 272 220.7 272 256C272 291.3 243.3 320 208 320C172.7 320 144 291.3 144 256z" />
@@ -66,6 +74,14 @@ export default function ListaAnuncios() {
 
   const toggleOrderDesktop = () => {
     setIsOpenOrderDesktop(!isOpenOrderDesktop);
+  };
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   //TODO: Obtener con un fetch
@@ -161,7 +177,10 @@ export default function ListaAnuncios() {
       </div>
 
       {/* Contenedor principal */}
-      <div className="w-5/6 flex flex-col gap-3">
+      <div
+        id="contenedorPrincipal"
+        className="lg:w-5/6 w-98 flex flex-col gap-3"
+      >
         {/* Acciones mobile */}
         <div className="flex lg:hidden flex-row gap-3 items-center">
           <button
@@ -221,7 +240,7 @@ export default function ListaAnuncios() {
         </div>
 
         {/* Filtros + listado */}
-        <div className="flex flex-col lg:flex-row gap-3">
+        <div className="flex flex-col lg:flex-row lg:gap-5">
           {/* Filtros */}
           <div
             className={`
@@ -242,19 +261,67 @@ export default function ListaAnuncios() {
           <div className="lg:flex-1">
             <div className="flex lg:flex-wrap justify-left lg:gap-4 gap-2">
               {/* Anuncio */}
-              <div className="flex flex-col lg:h-[500px] lg:w-[400px] w-full shadow-md">
-                <div className="bg-gray-400/50 h-7/12 w-full ">fotos</div>
+              <div className="flex flex-col lg:h-[500px] lg:w-[400px] w-full shadow-sm border-1 border-gray-300">
+                <div className="relative bg-gray-400/50 h-7/12 w-full overflow-hidden border-b-1 border-gray-300">
+                  {/* Contenedor deslizante */}
+                  <div
+                    className="flex transition-transform duration-500 ease-in-out h-full"
+                    style={{ transform: `translateX(-${current * 100}%)` }}
+                  >
+                    {images.map((img, index) => (
+                      <img
+                        key={index}
+                        src={img}
+                        alt={`slide-${index}`}
+                        className="w-full h-full object-cover flex-shrink-0"
+                      />
+                    ))}
+                  </div>
+
+                  {/* Flecha izquierda */}
+                  <button
+                    onClick={prevSlide}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded-full"
+                  >
+                    ❮
+                  </button>
+
+                  {/* Flecha derecha */}
+                  <button
+                    onClick={nextSlide}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded-full"
+                  >
+                    ❯
+                  </button>
+
+                  {/* Indicadores */}
+                  <div className="absolute bottom-2 w-full flex justify-center gap-2">
+                    {images.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrent(index)}
+                        className={`w-2.5 h-2.5 rounded-full transition-all ${
+                          current === index
+                            ? "bg-white scale-110"
+                            : "bg-white/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
                 <div className="w-full h-4/12 lg:p-3 p-2 border-b-1 border-gray-400/50">
-                  <p className="line-clamp-3 m-1 text-gray-800">
+                  <p className="lg:line-clamp-3 line-clamp-2 m-1 text-gray-800">
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                     Architecto, magni mollitia ut harum nemo magnam, earum
                     quidem officiis repellendus nam sunt dolorum inventore iusto
                     praesentium porro est ipsa, iste laborum.
                   </p>
-                  <p className="text-xs m-1">Calles: </p>
-                  <p className="m-1 text-xl text-gray-600 font-bold">
-                    U$S 1.000.000
+                  <p className="text-xs mt-2 mb-2 text-gray-600 ">
+                    <i className="bi bi-geo-alt-fill mr-1" />
+                    Solano Lopez y Magenta{" "}
                   </p>
+                  <p className="m-1 text-2xl text-gray-600 ">U$S 1.000.000</p>
                 </div>
                 <div className="w-full p-2 h-1/12">
                   <div className="flex flex-row h-full justify-between items-center text-xs text-gray-600 font-bold">
