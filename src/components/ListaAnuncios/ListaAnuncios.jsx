@@ -113,14 +113,31 @@ export default function ListaAnuncios() {
       esquina2: "Plutarco",
       nroPuerta: "1781",
       letra: "bis",
+      barrio: "Buceo",
+      departamento: "Montevideo",
       apartamento: "104",
       dormitorios: 1,
       banios: 1,
+      areaEdificada: 75,
       areaTotal: 75,
       areaConstruida: 70,
-      precio: 1000000,
-      moneda: "U$S",
+      garages: 0,
+      disposicion: "contrafrente",
+      precioVenta: 1000000,
+      precioAlquiler: 20000,
+      monedaVenta: "U$S",
+      monedaAlquiler: "$U",
       fotos: images,
+      caracteristicas: {
+        ascensor: false,
+        porteria: false,
+        rejas: false,
+        placardCocina: false,
+        camarasCCTV: false,
+      },
+      ambientes: ["Living", "Terraza Lavadero"],
+      coordenadas: "-34.88917736300291, -56.12755626054236",
+      video: "",
     },
     {
       id: 2,
@@ -133,14 +150,31 @@ export default function ListaAnuncios() {
       esquina2: "Plutarco",
       nroPuerta: "1781",
       letra: "bis",
+      barrio: "Buceo",
+      departamento: "Montevideo",
       apartamento: "104",
       dormitorios: 1,
       banios: 1,
+      areaEdificada: 75,
       areaTotal: 75,
       areaConstruida: 70,
-      precio: 1000000,
-      moneda: "U$S",
+      garages: 0,
+      disposicion: "contrafrente",
+      precioVenta: 1000000,
+      precioAlquiler: "",
+      monedaVenta: "U$S",
+      monedaAlquiler: "",
       fotos: images,
+      caracteristicas: {
+        ascensor: false,
+        porteria: false,
+        rejas: false,
+        placardCocina: false,
+        camarasCCTV: false,
+      },
+      ambientes: ["Living", "Terraza Lavadero"],
+      coordenadas: "-34.88917736300291, -56.12755626054236",
+      video: "",
     },
     {
       id: 3,
@@ -153,14 +187,31 @@ export default function ListaAnuncios() {
       esquina2: "Plutarco",
       nroPuerta: "1781",
       letra: "bis",
+      barrio: "Buceo",
+      departamento: "Montevideo",
       apartamento: "104",
       dormitorios: 1,
       banios: 1,
+      areaEdificada: 75,
       areaTotal: 75,
       areaConstruida: 70,
-      precio: 1000000,
-      moneda: "U$S",
+      garages: 0,
+      disposicion: "contrafrente",
+      precioVenta: "",
+      precioAlquiler: 20000,
+      monedaVenta: "",
+      monedaAlquiler: "$U",
       fotos: images,
+      caracteristicas: {
+        ascensor: false,
+        porteria: false,
+        rejas: false,
+        placardCocina: false,
+        camarasCCTV: false,
+      },
+      ambientes: ["Living", "Terraza Lavadero"],
+      coordenadas: "-34.88917736300291, -56.12755626054236",
+      video: "",
     },
   ];
 
@@ -170,7 +221,7 @@ export default function ListaAnuncios() {
   return (
     <div
       id="listaAnuncios"
-      className="flex flex-col items-center w-full gap-3 pt-3"
+      className="flex flex-col items-center w-full gap-3 pt-3 mb-5"
     >
       {/* Barra superior (desktop) */}
       <div className="lg:flex flex-row hidden mx-3 mt-3 w-5/6 gap-3 justify-center">
@@ -308,7 +359,7 @@ export default function ListaAnuncios() {
             lg:animate-none
           `}
           >
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 mb-3">
               <Filtro title="Tipo de operación" options={tipoOperaciones} />
               <Filtro title="Tipo de propiedad" options={tipoPropiedades} />
               <Filtro title="Departamentos" options={departamento} />

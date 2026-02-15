@@ -4,7 +4,7 @@
 
 body {
   font-family: "Google Sans", sans-serif;
-  background-color: oklch(95.1% 0.026 236.824);
+  background-color: oklch(97% 0.014 254.604); /*Azul 50 Tailwind*/
 }
 
 @keyframes fade-up {

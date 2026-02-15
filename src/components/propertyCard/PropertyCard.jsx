@@ -15,13 +15,13 @@ const PropertyCard = ({ viewMode, propertie }) => {
   return (
     <div
       className={`
-        shadow-sm border border-gray-200 overflow-hidden rounded-md 
+        shadow-sm border border-gray-400/35 overflow-hidden rounded-sm
         transition-all duration-300
         flex flex-col    
         ${
           viewMode === "list"
             ? "lg:flex-row lg:h-[300px]"
-            : "lg:flex-col w-[380px]"
+            : "lg:flex-col lg:w-[380px] w-full"
         }
       `}
     >
@@ -90,7 +90,7 @@ const PropertyCard = ({ viewMode, propertie }) => {
           }`}
         >
           <p
-            className={`m-1 text-gray-800 line-clamp-2 ${
+            className={`m-1 text-gray-600 text-semibold line-clamp-2 ${
               viewMode === "grid" ? "lg:line-clamp-2" : "lg:line-clamp-4"
             }`}
           >
@@ -101,10 +101,24 @@ const PropertyCard = ({ viewMode, propertie }) => {
             {propertie.calle}
             {propertie.esquina1 != "" ? ", " + propertie.esquina1 : ""}
           </p>
-          <div className="flex items-center h-18">
-            <p className="m-1 text-3xl text-sky-700 font-semibold ">
-              {propertie.moneda} {propertie.precio}
-            </p>
+          <div className="flex flex-col h-18">
+            {propertie.precioVenta !== "" ? (
+              <span className="m-1 text-2xl text-sky-700 font-semibold ">
+                {propertie.precioAlquiler !== "" ? "Venta: " : ""}
+                {propertie.monedaVenta} {propertie.precioVenta}
+              </span>
+            ) : (
+              <></>
+            )}
+            {propertie.precioAlquiler !== "" ? (
+              <span className="m-1 text-2xl text-sky-700 font-semibold ">
+                {propertie.precioVenta !== "" ? "Alquiler: " : ""}
+                {propertie.monedaAlquiler} {propertie.precioAlquiler}{" "}
+                <span className="text-xl">/ Mes</span>
+              </span>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
 
