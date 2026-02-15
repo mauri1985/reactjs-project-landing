@@ -6,7 +6,7 @@ export default function Filtro({ title, options }) {
   const extras = options.slice(3);
 
   return (
-    <div className="bg-blue-200/30 py-5 px-2 shadow-sm">
+    <div className="bg-white py-5 px-2 shadow-sm">
       <div className="text-md font-bold mb-2 text-gray-600 text-center">
         {title}
       </div>

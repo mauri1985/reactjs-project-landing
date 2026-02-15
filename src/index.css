@@ -4,7 +4,7 @@
 
 body {
   font-family: "Google Sans", sans-serif;
-  background-color: #efefef;
+  background-color: oklch(95.1% 0.026 236.824);
 }
 
 @keyframes fade-up {
