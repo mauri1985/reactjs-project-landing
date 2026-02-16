@@ -15,13 +15,18 @@ const PropertyCard = ({ viewMode, propertie }) => {
   return (
     <div
       className={`
-        shadow-sm border border-gray-400/35 overflow-hidden rounded-sm
+        overflow-hidden rounded-xl
         transition-all duration-300
         flex flex-col    
         ${
           viewMode === "list"
             ? "lg:flex-row lg:h-[300px]"
             : "lg:flex-col lg:w-[380px] w-full"
+        }
+        ${
+          propertie.destacado === true
+            ? "outline-4 outline-sky-500 shadow-xl/20"
+            : "outline-2 outline-gray-400/40 shadow-md/10"
         }
       `}
     >
@@ -30,7 +35,7 @@ const PropertyCard = ({ viewMode, propertie }) => {
         className={`flex justify-center items-center lg:w-[380px] bg-green-200 
         ${viewMode === "grid" ? "h-[300px]" : "min-w-[380px]"}`}
       >
-        <div className="relative bg-gray-400/50 h-full w-full overflow-hidden border-b-1 border-gray-300 ">
+        <div className="relative bg-gray-400/50 h-full w-full overflow-hidden">
           {/* Contenedor deslizante */}
           <div
             className="flex transition-transform duration-500 ease-in-out h-full"
@@ -46,10 +51,38 @@ const PropertyCard = ({ viewMode, propertie }) => {
             ))}
           </div>
 
+          <div className="absolute left-[10px] top-[10px] text-white text-xs font-semibold">
+            <div className="flex flex-row gap-3">
+              {propertie.destacado === true ? (
+                <button className="rounded-md bg-red-500/95 shadow-md/30 text-shadow-md/30 px-2 py-1">
+                  DESTACADO
+                </button>
+              ) : (
+                <></>
+              )}
+
+              {propertie.precioVenta !== "" ? (
+                <button className="rounded-md bg-green-500/95 shadow-md/30 text-shadow-md/30 px-3 py-2">
+                  VENTA
+                </button>
+              ) : (
+                <></>
+              )}
+
+              {propertie.precioAlquiler !== "" ? (
+                <button className="rounded-md bg-blue-500/95 shadow-md/30 text-shadow-md/30 px-3 py-2">
+                  ALQUILER
+                </button>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+
           {/* Flecha izquierda */}
           <button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded-full"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white px-2 py-1 h-[50px] w-[30px] rounded-md"
           >
             ❮
           </button>
@@ -57,7 +90,7 @@ const PropertyCard = ({ viewMode, propertie }) => {
           {/* Flecha derecha */}
           <button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-2 py-1 rounded-full"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white px-2 py-1 h-[50px] w-[30px] rounded-md"
           >
             ❯
           </button>

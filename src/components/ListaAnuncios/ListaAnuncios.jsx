@@ -105,6 +105,7 @@ export default function ListaAnuncios() {
     {
       id: 1,
       ref: 123,
+      inmobiliaria: "",
       titulo: "Lorem ipsum",
       descripcion:
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. In, ab laudantium amet suscipit sapiente culpa incidunt quasi, reiciendis, nesciunt sit nobis sint! Molestias quos laboriosam excepturi temporibus ad placeat aspernatur!",
@@ -138,10 +139,12 @@ export default function ListaAnuncios() {
       ambientes: ["Living", "Terraza Lavadero"],
       coordenadas: "-34.88917736300291, -56.12755626054236",
       video: "",
+      destacado: true,
     },
     {
       id: 2,
       ref: 123,
+      inmobiliaria: "",
       titulo: "Lorem ipsum",
       descripcion:
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. In, ab laudantium amet suscipit sapiente culpa incidunt quasi, reiciendis, nesciunt sit nobis sint! Molestias quos laboriosam excepturi temporibus ad placeat aspernatur!",
@@ -175,10 +178,12 @@ export default function ListaAnuncios() {
       ambientes: ["Living", "Terraza Lavadero"],
       coordenadas: "-34.88917736300291, -56.12755626054236",
       video: "",
+      destacado: false,
     },
     {
       id: 3,
       ref: 123,
+      inmobiliaria: "",
       titulo: "Lorem ipsum",
       descripcion:
         "Lorem ipsum, dolor sit amet consectetur adipisicing elit. In, ab laudantium amet suscipit sapiente culpa incidunt quasi, reiciendis, nesciunt sit nobis sint! Molestias quos laboriosam excepturi temporibus ad placeat aspernatur!",
@@ -212,6 +217,7 @@ export default function ListaAnuncios() {
       ambientes: ["Living", "Terraza Lavadero"],
       coordenadas: "-34.88917736300291, -56.12755626054236",
       video: "",
+      destacado: false,
     },
   ];
 
