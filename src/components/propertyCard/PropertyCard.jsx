@@ -25,7 +25,7 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
         transition-transform 
         duration-300 
         ease-out
-        md:hover:scale-[1.03]
+        md:hover:scale-[1.01]
         md:hover:-translate-y-1
         ${
           viewMode === "list"
@@ -89,7 +89,7 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
           </div>
 
           {/* Favoritos */}
-          <div className="absolute right-[15px] top-[15px] text-xs text-sky-600 font-semibold">
+          <div className="absolute right-[15px] top-[15px] text-xs text-sky-600 font-semibold ">
             <button
               className="z-50"
               onClick={(e) => {
@@ -101,6 +101,7 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
               <HeartAlt
                 className="transition-all 
                 transition-transform 
+                
                 duration-300 
                 ease-out
                 md:hover:scale-[1.3]"
@@ -116,7 +117,11 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
 
           {/* Flecha izquierda */}
           <button
-            onClick={prevSlide}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              prevSlide();
+            }}
             className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white px-2 py-1 h-[50px] w-[30px] rounded-md"
           >
             ❮
@@ -124,8 +129,12 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
 
           {/* Flecha derecha */}
           <button
-            onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white px-2 py-1 h-[50px] w-[30px] rounded-md"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              nextSlide();
+            }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white px-2 py-1 h-[50px] w-[30px] rounded-md z-50"
           >
             ❯
           </button>
@@ -135,7 +144,11 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
             {propertie.fotos.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrent(index)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setCurrent(index);
+                }}
                 className={`w-2.5 h-2.5 rounded-full transition-all ${
                   current === index ? "bg-white scale-110" : "bg-white/50"
                 }`}
