@@ -1,7 +1,8 @@
 import { useState, React } from "react";
-import { BedIcon, BathIcon, AreaIcon } from "../../icons";
+import { Link } from "react-router-dom";
+import { BedIcon, BathIcon, AreaIcon, HeartAlt } from "../../icons";
 
-const PropertyCard = ({ viewMode, propertie }) => {
+const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
   const [current, setCurrent] = useState(0);
 
   const prevSlide = () => {
@@ -13,11 +14,19 @@ const PropertyCard = ({ viewMode, propertie }) => {
   };
 
   return (
-    <div
+    <Link
+      to={`/propiedad/${propertie.ref}`}
+      target="_blank"
+      rel="noopener noreferrer"
       className={`
-        overflow-hidden rounded-xl
-        transition-all duration-300
-        flex flex-col    
+        overflow-hidden rounded-xl        
+        flex flex-col cursor-pointer
+        transition-all 
+        transition-transform 
+        duration-300 
+        ease-out
+        md:hover:scale-[1.03]
+        md:hover:-translate-y-1
         ${
           viewMode === "list"
             ? "lg:flex-row lg:h-[300px]"
@@ -25,8 +34,8 @@ const PropertyCard = ({ viewMode, propertie }) => {
         }
         ${
           propertie.destacado === true
-            ? "outline-4 outline-sky-500 shadow-xl/20"
-            : "outline-2 outline-gray-400/40 shadow-md/10"
+            ? "outline-4 outline-sky-500 shadow-xl md:hover:shadow-xl/30"
+            : "outline-2 outline-gray-400/40 shadow-md md:hover:shadow-md/30"
         }
       `}
     >
@@ -77,6 +86,32 @@ const PropertyCard = ({ viewMode, propertie }) => {
                 <></>
               )}
             </div>
+          </div>
+
+          {/* Favoritos */}
+          <div className="absolute right-[15px] top-[15px] text-xs text-sky-600 font-semibold">
+            <button
+              className="z-50"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleFavorito(propertie.id);
+              }}
+            >
+              <HeartAlt
+                className="transition-all 
+                transition-transform 
+                duration-300 
+                ease-out
+                md:hover:scale-[1.3]"
+                fill={`${
+                  propertie.favorito === true ? "currentColor" : "none"
+                }`}
+                stroke={`${
+                  propertie.favorito === false ? "currentColor" : "none"
+                }`}
+              />
+            </button>
           </div>
 
           {/* Flecha izquierda */}
@@ -176,7 +211,7 @@ const PropertyCard = ({ viewMode, propertie }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -8,7 +8,6 @@ export default function ListaAnuncios() {
   const [isOpenOrderMobile, setIsOpenOrderMobile] = useState(false);
   const [isOpenOrderDesktop, setIsOpenOrderDesktop] = useState(false);
   const [viewMode, setViewMode] = useState("grid"); // "grid" | "list"
-
   const orderRefDesktop = useRef(null);
   const orderRefMobile = useRef(null);
 
@@ -17,6 +16,14 @@ export default function ListaAnuncios() {
     "https://picsum.photos/id/1015/600/400",
     "https://picsum.photos/id/1019/600/400",
   ];
+
+  const toggleFavorito = (id) => {
+    setProperties((prev) =>
+      prev.map((prop) =>
+        prop.id === id ? { ...prop, favorito: !prop.favorito } : prop
+      )
+    );
+  };
 
   //Cerrar al hacer click afuera del ordenar por
   useEffect(() => {
@@ -101,7 +108,7 @@ export default function ListaAnuncios() {
     { codigo: 6, descripcion: "Artigas", cantidad: 8 },
   ];
 
-  const properties = [
+  const data = [
     {
       id: 1,
       ref: 123,
@@ -140,6 +147,7 @@ export default function ListaAnuncios() {
       coordenadas: "-34.88917736300291, -56.12755626054236",
       video: "",
       destacado: true,
+      favorito: true,
     },
     {
       id: 2,
@@ -179,6 +187,7 @@ export default function ListaAnuncios() {
       coordenadas: "-34.88917736300291, -56.12755626054236",
       video: "",
       destacado: false,
+      favorito: false,
     },
     {
       id: 3,
@@ -218,9 +227,11 @@ export default function ListaAnuncios() {
       coordenadas: "-34.88917736300291, -56.12755626054236",
       video: "",
       destacado: false,
+      favorito: true,
     },
   ];
 
+  const [properties, setProperties] = useState(data);
   const [params] = useSearchParams();
   const operacion = params.get("operacion");
 
@@ -382,7 +393,11 @@ export default function ListaAnuncios() {
             >
               {properties.map((prop) => (
                 <div key={prop.id}>
-                  <PropertyCard viewMode={viewMode} propertie={prop} />
+                  <PropertyCard
+                    viewMode={viewMode}
+                    propertie={prop}
+                    toggleFavorito={toggleFavorito}
+                  />
                 </div>
               ))}
             </div>
