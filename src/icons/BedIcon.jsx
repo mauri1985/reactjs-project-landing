@@ -1,7 +1,13 @@
-const BedIcon = ({ className }) => {
+const BedIcon = ({ className, width, height }) => {
   return (
-    <svg viewBox="0 0 16 16" className={className} fill="currentColor">
-      <path d="M2 2H0V14H2V12H14V14H16V9C16 7.34315 14.6569 6 13 6H6C6 4.89543 5.10457 4 4 4H2V2Z" />
+    <svg
+      height={height}
+      viewBox="0 -960 960 960"
+      width={width}
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M80-200q-17 0-28.5-11.5T40-240v-520q0-17 11.5-28.5T80-800q17 0 28.5 11.5T120-760v360h320v-240q0-33 23.5-56.5T520-720h240q66 0 113 47t47 113v320q0 17-11.5 28.5T880-200q-17 0-28.5-11.5T840-240v-80H120v80q0 17-11.5 28.5T80-200Zm115-275q-35-35-35-85t35-85q35-35 85-35t85 35q35 35 35 85t-35 85q-35 35-85 35t-85-35Z" />
     </svg>
   );
 };

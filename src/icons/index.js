@@ -1,4 +1,12 @@
+export { default as HomeIcon } from "./Home";
+export { default as PinLocation } from "./PinLocation";
 export { default as BedIcon } from "./BedIcon";
 export { default as BathIcon } from "./BathIcon";
 export { default as AreaIcon } from "./AreaIcon";
 export { default as HeartAlt } from "./HeartAlt";
+export { default as CarGarage } from "./CarGarage";
+export { default as BorderStyle } from "./BorderStyle";
+export { default as BorderOuter } from "./BorderOuter";
+export { default as HomePinIcon } from "./HomePinIcon";
+export { default as Ruler } from "./Ruler";
+export { default as WhatsAppIcon } from "./WhatsApp";

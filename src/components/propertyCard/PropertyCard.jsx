@@ -2,20 +2,20 @@ import { useState, React } from "react";
 import { Link } from "react-router-dom";
 import { BedIcon, BathIcon, AreaIcon, HeartAlt } from "../../icons";
 
-const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
+const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
   const [current, setCurrent] = useState(0);
 
   const prevSlide = () => {
-    setCurrent((prev) => (prev === 0 ? propertie.fotos.length - 1 : prev - 1));
+    setCurrent((prev) => (prev === 0 ? property.fotos.length - 1 : prev - 1));
   };
 
   const nextSlide = () => {
-    setCurrent((prev) => (prev === propertie.fotos.length - 1 ? 0 : prev + 1));
+    setCurrent((prev) => (prev === property.fotos.length - 1 ? 0 : prev + 1));
   };
 
   return (
     <Link
-      to={`/propiedad/${propertie.ref}`}
+      to={`/propiedad/${property.id}`}
       target="_blank"
       rel="noopener noreferrer"
       className={`
@@ -33,7 +33,7 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
             : "lg:flex-col lg:w-[380px] w-full"
         }
         ${
-          propertie.destacado === true
+          property.destacado === true
             ? "outline-4 outline-sky-500 shadow-xl md:hover:shadow-xl/30"
             : "outline-2 outline-gray-400/40 shadow-md md:hover:shadow-md/30"
         }
@@ -50,7 +50,7 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
             className="flex transition-transform duration-500 ease-in-out h-full"
             style={{ transform: `translateX(-${current * 100}%)` }}
           >
-            {propertie.fotos.map((img, index) => (
+            {property.fotos.map((img, index) => (
               <img
                 key={index}
                 src={img}
@@ -61,29 +61,23 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
           </div>
 
           <div className="absolute left-[10px] top-[10px] text-white text-xs font-semibold">
-            <div className="flex flex-row gap-3">
-              {propertie.destacado === true ? (
-                <button className="rounded-md bg-red-500/95 shadow-md/30 text-shadow-md/30 px-2 py-1">
+            <div className="flex flex-row gap-3 items-center ">
+              {property.destacado === true && (
+                <div className="rounded-md bg-red-500/85 shadow-md/30 text-shadow-md/30 px-3 py-2">
                   DESTACADO
-                </button>
-              ) : (
-                <></>
+                </div>
               )}
 
-              {propertie.precioVenta !== "" ? (
-                <button className="rounded-md bg-green-500/95 shadow-md/30 text-shadow-md/30 px-3 py-2">
+              {property.precioVenta !== "" && (
+                <div className="rounded-md bg-green-500/85 shadow-md/30 text-shadow-md/30 px-3 py-2">
                   VENTA
-                </button>
-              ) : (
-                <></>
+                </div>
               )}
 
-              {propertie.precioAlquiler !== "" ? (
-                <button className="rounded-md bg-blue-500/95 shadow-md/30 text-shadow-md/30 px-3 py-2">
+              {property.precioAlquiler !== "" && (
+                <div className="rounded-md bg-blue-500/85 shadow-md/30 text-shadow-md/30 px-3 py-2">
                   ALQUILER
-                </button>
-              ) : (
-                <></>
+                </div>
               )}
             </div>
           </div>
@@ -95,21 +89,19 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                toggleFavorito(propertie.id);
+                toggleFavorito(property.id);
               }}
             >
               <HeartAlt
                 className="transition-all 
-                transition-transform 
-                
+                transition-transform                 
                 duration-300 
                 ease-out
                 md:hover:scale-[1.3]"
-                fill={`${
-                  propertie.favorito === true ? "currentColor" : "none"
-                }`}
+                width={"28px"}
+                fill={`${property.favorito === true ? "currentColor" : "none"}`}
                 stroke={`${
-                  propertie.favorito === false ? "currentColor" : "none"
+                  property.favorito === false ? "currentColor" : "none"
                 }`}
               />
             </button>
@@ -141,7 +133,7 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
 
           {/* Indicadores */}
           <div className="absolute bottom-2 w-full flex justify-center gap-2">
-            {propertie.fotos.map((_, index) => (
+            {property.fotos.map((_, index) => (
               <button
                 key={index}
                 onClick={(e) => {
@@ -175,26 +167,26 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
               viewMode === "grid" ? "lg:line-clamp-2" : "lg:line-clamp-4"
             }`}
           >
-            {propertie.descripcion}
+            {property.descripcion}
           </p>
           <p className="text-xs mt-1 mb-2 text-gray-600 ">
             <i className="bi bi-geo-alt-fill mr-1" />
-            {propertie.calle}
-            {propertie.esquina1 != "" ? ", " + propertie.esquina1 : ""}
+            {property.calle}
+            {property.esquina1 != "" ? ", " + property.esquina1 : ""}
           </p>
           <div className="flex flex-col h-18">
-            {propertie.precioVenta !== "" ? (
+            {property.precioVenta !== "" ? (
               <span className="m-1 text-2xl text-sky-700 font-semibold ">
-                {propertie.precioAlquiler !== "" ? "Venta: " : ""}
-                {propertie.monedaVenta} {propertie.precioVenta}
+                {property.precioAlquiler !== "" ? "Venta: " : ""}
+                {property.monedaVenta} {property.precioVenta}
               </span>
             ) : (
               <></>
             )}
-            {propertie.precioAlquiler !== "" ? (
+            {property.precioAlquiler !== "" ? (
               <span className="m-1 text-2xl text-sky-700 font-semibold ">
-                {propertie.precioVenta !== "" ? "Alquiler: " : ""}
-                {propertie.monedaAlquiler} {propertie.precioAlquiler}{" "}
+                {property.precioVenta !== "" ? "Alquiler: " : ""}
+                {property.monedaAlquiler} {property.precioAlquiler}{" "}
                 <span className="text-xl">/ Mes</span>
               </span>
             ) : (
@@ -210,17 +202,15 @@ const PropertyCard = ({ viewMode, propertie, toggleFavorito }) => {
         >
           <div className="inline-flex items-end gap-2">
             <BedIcon className="w-5 h-5 text-gray-500" />
-            <span className="leading-tight">{propertie.dormitorios} Dorm.</span>
+            <span className="leading-tight">{property.dormitorios} Dorm.</span>
           </div>
           <div className="inline-flex items-end gap-2">
             <BathIcon className="w-5 h-5 text-gray-500" />
-            <span className="leading-tight">{propertie.banios} Baño</span>
+            <span className="leading-tight">{property.banios} Baño</span>
           </div>
           <div className="inline-flex items-end gap-2">
             <AreaIcon className="w-5 h-5 text-gray-500" />
-            <span className="leading-tight">
-              Área: {propertie.areaTotal} m²
-            </span>
+            <span className="leading-tight">Área: {property.areaTotal} m²</span>
           </div>
         </div>
       </div>

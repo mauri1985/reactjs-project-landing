@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import PropertyCard from "../propertyCard/PropertyCard";
 import { useSearchParams } from "react-router-dom";
 import Filtro from "../Filtro/filtro";
+import { data as initialData } from "../../data/propiedades";
 
 export default function ListaAnuncios() {
   const [isOpenFilters, setIsOpenFilters] = useState(false);
@@ -10,12 +11,6 @@ export default function ListaAnuncios() {
   const [viewMode, setViewMode] = useState("grid"); // "grid" | "list"
   const orderRefDesktop = useRef(null);
   const orderRefMobile = useRef(null);
-
-  const images = [
-    "https://picsum.photos/id/1018/600/400",
-    "https://picsum.photos/id/1015/600/400",
-    "https://picsum.photos/id/1019/600/400",
-  ];
 
   const toggleFavorito = (id) => {
     setProperties((prev) =>
@@ -72,14 +67,6 @@ export default function ListaAnuncios() {
     setIsOpenOrderDesktop(!isOpenOrderDesktop);
   };
 
-  const prevSlide = () => {
-    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
-
   //TODO: Obtener con un fetch
   const tipoOperaciones = [
     { codigo: 1, descripcion: "Venta", cantidad: 550 },
@@ -108,130 +95,7 @@ export default function ListaAnuncios() {
     { codigo: 6, descripcion: "Artigas", cantidad: 8 },
   ];
 
-  const data = [
-    {
-      id: 1,
-      ref: 123,
-      inmobiliaria: "",
-      titulo: "Lorem ipsum",
-      descripcion:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. In, ab laudantium amet suscipit sapiente culpa incidunt quasi, reiciendis, nesciunt sit nobis sint! Molestias quos laboriosam excepturi temporibus ad placeat aspernatur!",
-      calle: "Av. Mariscal Francisco Solano Lopez",
-      esquina1: "Magenta",
-      esquina2: "Plutarco",
-      nroPuerta: "1781",
-      letra: "bis",
-      barrio: "Buceo",
-      departamento: "Montevideo",
-      apartamento: "104",
-      dormitorios: 1,
-      banios: 1,
-      areaEdificada: 75,
-      areaTotal: 75,
-      areaConstruida: 70,
-      garages: 0,
-      disposicion: "contrafrente",
-      precioVenta: 1000000,
-      precioAlquiler: 20000,
-      monedaVenta: "U$S",
-      monedaAlquiler: "$U",
-      fotos: images,
-      caracteristicas: {
-        ascensor: false,
-        porteria: false,
-        rejas: false,
-        placardCocina: false,
-        camarasCCTV: false,
-      },
-      ambientes: ["Living", "Terraza Lavadero"],
-      coordenadas: "-34.88917736300291, -56.12755626054236",
-      video: "",
-      destacado: true,
-      favorito: true,
-    },
-    {
-      id: 2,
-      ref: 123,
-      inmobiliaria: "",
-      titulo: "Lorem ipsum",
-      descripcion:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. In, ab laudantium amet suscipit sapiente culpa incidunt quasi, reiciendis, nesciunt sit nobis sint! Molestias quos laboriosam excepturi temporibus ad placeat aspernatur!",
-      calle: "Av. Mariscal Francisco Solano Lopez",
-      esquina1: "Magenta",
-      esquina2: "Plutarco",
-      nroPuerta: "1781",
-      letra: "bis",
-      barrio: "Buceo",
-      departamento: "Montevideo",
-      apartamento: "104",
-      dormitorios: 1,
-      banios: 1,
-      areaEdificada: 75,
-      areaTotal: 75,
-      areaConstruida: 70,
-      garages: 0,
-      disposicion: "contrafrente",
-      precioVenta: 1000000,
-      precioAlquiler: "",
-      monedaVenta: "U$S",
-      monedaAlquiler: "",
-      fotos: images,
-      caracteristicas: {
-        ascensor: false,
-        porteria: false,
-        rejas: false,
-        placardCocina: false,
-        camarasCCTV: false,
-      },
-      ambientes: ["Living", "Terraza Lavadero"],
-      coordenadas: "-34.88917736300291, -56.12755626054236",
-      video: "",
-      destacado: false,
-      favorito: false,
-    },
-    {
-      id: 3,
-      ref: 123,
-      inmobiliaria: "",
-      titulo: "Lorem ipsum",
-      descripcion:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. In, ab laudantium amet suscipit sapiente culpa incidunt quasi, reiciendis, nesciunt sit nobis sint! Molestias quos laboriosam excepturi temporibus ad placeat aspernatur!",
-      calle: "Av. Mariscal Francisco Solano Lopez",
-      esquina1: "Magenta",
-      esquina2: "Plutarco",
-      nroPuerta: "1781",
-      letra: "bis",
-      barrio: "Buceo",
-      departamento: "Montevideo",
-      apartamento: "104",
-      dormitorios: 1,
-      banios: 1,
-      areaEdificada: 75,
-      areaTotal: 75,
-      areaConstruida: 70,
-      garages: 0,
-      disposicion: "contrafrente",
-      precioVenta: "",
-      precioAlquiler: 20000,
-      monedaVenta: "",
-      monedaAlquiler: "$U",
-      fotos: images,
-      caracteristicas: {
-        ascensor: false,
-        porteria: false,
-        rejas: false,
-        placardCocina: false,
-        camarasCCTV: false,
-      },
-      ambientes: ["Living", "Terraza Lavadero"],
-      coordenadas: "-34.88917736300291, -56.12755626054236",
-      video: "",
-      destacado: false,
-      favorito: true,
-    },
-  ];
-
-  const [properties, setProperties] = useState(data);
+  const [properties, setProperties] = useState(initialData);
   const [params] = useSearchParams();
   const operacion = params.get("operacion");
 
@@ -395,7 +259,7 @@ export default function ListaAnuncios() {
                 <div key={prop.id}>
                   <PropertyCard
                     viewMode={viewMode}
-                    propertie={prop}
+                    property={prop}
                     toggleFavorito={toggleFavorito}
                   />
                 </div>

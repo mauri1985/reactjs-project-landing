@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
+import { WhatsAppIcon } from "../../icons";
 
-export default function ContactForm() {
+export default function ContactForm({ property, message }) {
   const {
     register,
     handleSubmit,
@@ -97,10 +98,23 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-linear-45 shadow-md/40 from-indigo-400 via-sky-400 to-emerald-400 text-shadow-lg/30 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
+        className="w-full text-white shadow-xs/30 text-center bg-sky-500 rounded-lg py-2 px-1 hover:bg-sky-600"
       >
         {isSubmitting ? "Enviando..." : "Enviar mensaje"}
       </button>
+
+      {property !== undefined && property.id > 0 && (
+        <div className="w-full text-white shadow-xs/30 text-center bg-green-500 rounded-lg py-2 px-1 hover:bg-green-600">
+          <a
+            href={`https://wa.me/598095291547?text=${message}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <WhatsAppIcon className="text-white inline" width={"24px"} />{" "}
+            WhatsApp
+          </a>
+        </div>
+      )}
     </form>
   );
 }
