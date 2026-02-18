@@ -7,10 +7,10 @@ import {
   CarGarage,
   Ruler,
   PinLocation,
-  WhatsAppIcon,
 } from "../../icons";
 import { useState } from "react";
 import ContactForm from "../ContactForm/ContactForm";
+import Mapa from "../mapa/Mapa";
 
 function PropertyDetail() {
   const { id } = useParams();
@@ -166,8 +166,8 @@ function PropertyDetail() {
           {/* Otros datos */}
           <div className="w-full bg-white shadow-md/30 rounded-xl p-6">
             {/* Características */}
-            <div className="mb-6">
-              <h2 className="text-xl text-gray-700 font-semibold mb-2">
+            <div className="mb-8">
+              <h2 className="text-xl text-gray-700 font-semibold mb-3">
                 Características
               </h2>
 
@@ -184,8 +184,8 @@ function PropertyDetail() {
             </div>
 
             {/* Ambientes */}
-            <div>
-              <h2 className="text-xl text-gray-700 font-semibold mb-2">
+            <div className="mb-6">
+              <h2 className="text-xl text-gray-700 font-semibold mb-3">
                 Ambientes
               </h2>
 
@@ -202,9 +202,39 @@ function PropertyDetail() {
             </div>
           </div>
 
-          <div className="w-full bg-white shadow-md/30 rounded-xl p-6">
-            Ubicacion <br />
-            Mostrar Mapa
+          <div className="flex flex-col gap-5 w-full bg-white shadow-md/30 rounded-xl p-6 text-gray-700">
+            {/* Ubicacion */}
+            <div className="">
+              <h2 className="text-xl font-semibold">Ubicación</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-6 ">
+              <div className="block text-sm font-semibold">
+                Dirección:{" "}
+                <span className="font-thin text-gray-500">
+                  {property.calle} {property.nroPuerta}
+                </span>
+              </div>
+              <div className="block text-sm font-semibold">
+                Barrio:{" "}
+                <span className="font-thin text-gray-500">
+                  {property.barrio}
+                </span>
+              </div>
+              <div className="block text-sm font-semibold">
+                Departament:{" "}
+                <span className="font-thin text-gray-500">
+                  {property.departamento}
+                </span>
+              </div>
+            </div>
+            <div className="shadow-md/30 rounded-xl">
+              <Mapa
+                lat={lat}
+                lng={lng}
+                heigth={"400px"}
+                popup={property.calle + " " + property.nroPuerta}
+              />
+            </div>
           </div>
         </div>
         {/* Formulario sencillo */}
