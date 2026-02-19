@@ -1,26 +1,33 @@
 const images1 = [
-  "https://picsum.photos/id/27/600/400",
-  "https://picsum.photos/id/29/600/400",
-  "https://picsum.photos/id/30/600/400",
-  "https://picsum.photos/id/30/600/400",
-  "https://picsum.photos/id/31/600/400",
-  "https://picsum.photos/id/32/600/400",
-  "https://picsum.photos/id/33/600/400",
-  "https://picsum.photos/id/34/600/400",
-  "https://picsum.photos/id/35/600/400",
-  "https://picsum.photos/id/36/600/400",
+  "https://picsum.photos/id/27/1200/720",
+  "https://picsum.photos/id/29/1200/720",
+  "https://picsum.photos/id/30/1200/720",
+  "https://picsum.photos/id/30/1200/720",
+  "https://picsum.photos/id/31/1200/720",
+  "https://picsum.photos/id/32/1200/720",
+  "https://picsum.photos/id/33/1200/720",
+  "https://picsum.photos/id/34/1200/720",
+  "https://picsum.photos/id/35/1200/720",
+  "https://picsum.photos/id/36/1200/720",
+  "https://picsum.photos/id/38/1200/720",
+  "https://picsum.photos/id/39/1200/720",
+  "https://picsum.photos/id/40/1200/720",
+  "https://picsum.photos/id/41/1200/720",
+  "https://picsum.photos/id/42/1200/720",
+  "https://picsum.photos/id/43/1200/720",
+  "https://picsum.photos/id/44/1200/720",
 ];
 
 const images2 = [
-  "https://picsum.photos/id/15/600/400",
-  "https://picsum.photos/id/16/600/400",
-  "https://picsum.photos/id/17/600/400",
+  "https://picsum.photos/id/15/1200/720",
+  "https://picsum.photos/id/16/1200/720",
+  "https://picsum.photos/id/17/1200/720",
 ];
 
 const images3 = [
-  "https://picsum.photos/id/25/600/400",
-  "https://picsum.photos/id/26/600/400",
-  "https://picsum.photos/id/27/600/400",
+  "https://picsum.photos/id/25/1200/720",
+  "https://picsum.photos/id/26/1200/720",
+  "https://picsum.photos/id/27/1200/720",
 ];
 
 export const data = [

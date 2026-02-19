@@ -8,9 +8,10 @@ import {
   Ruler,
   PinLocation,
 } from "../../icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ContactForm from "../ContactForm/ContactForm";
 import Mapa from "../mapa/Mapa";
+import MyGallery from "../myGallery/MyGallery";
 
 function PropertyDetail() {
   const { id } = useParams();
@@ -19,6 +20,7 @@ function PropertyDetail() {
   if (!property) return <div>No encontrada</div>;
 
   const [current, setCurrent] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
   const mensaje = encodeURIComponent(
     `Hola, me interesa la propiedad ${property.titulo} (Ref: ${property.ref})`
@@ -35,6 +37,27 @@ function PropertyDetail() {
   // const prev = () => {
   //   setCurrent((prev) => (prev === 0 ? property.fotos.length - 1 : prev - 1));
   // };
+
+  const openModal = (index) => {
+    setIsOpen(true);
+    setCurrent(index);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   return (
     <div className="flex justify-center w-full p-3">
@@ -75,7 +98,7 @@ function PropertyDetail() {
                         <img
                           key={index}
                           src={foto}
-                          onClick={() => setCurrent(index)}
+                          onClick={() => openModal(index)}
                           className="object-cover rounded-lg cursor-pointer border-1 border-gray-400/70"
                         />
                       </div>
@@ -103,28 +126,28 @@ function PropertyDetail() {
                 </div>
                 <div className="flex flex-col gap-2 w-3/12 text-end">
                   {property.precioVenta > 0 && (
-                    <div className="text-xl font-bold text-sky-600 ">
+                    <div className="text-2xl font-bold text-sky-600 ">
                       {property.monedaVenta}{" "}
                       {property.precioVenta.toLocaleString()}
-                      <span className="block font-thin text-xs">
+                      <span className="block text-gray-500 font-thin text-xs">
                         Precio de venta
                       </span>
                     </div>
                   )}
                   {property.precioAlquiler > 0 && (
-                    <div className="text-xl font-bold text-sky-600">
+                    <div className="text-2xl font-bold text-sky-600">
                       {property.monedaAlquiler}{" "}
                       {property.precioAlquiler.toLocaleString()}
-                      <span className="block font-thin text-xs">
-                        Precio alquiler
+                      <span className="block text-gray-500 font-thin text-xs">
+                        Precio de alquiler
                       </span>
                     </div>
                   )}
                   {property.expensas > 0 && (
-                    <div className="text-xl font-bold text-sky-600">
+                    <div className="text-2xl font-bold text-sky-600">
                       + {property.monedaExpensas}{" "}
                       {property.expensas.toLocaleString()}{" "}
-                      <span className="block font-thin text-xs">
+                      <span className="block text-gray-500 font-thin text-xs">
                         Gastos comunes
                       </span>
                     </div>
@@ -252,6 +275,20 @@ function PropertyDetail() {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center animate-fadeIn"
+          onClick={() => setIsOpen(false)}
+        >
+          <div onClick={(e) => e.stopPropagation()} className="w-2/3">
+            <MyGallery
+              images={property.fotos}
+              showThumbnails={true}
+              startIndex={current}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
