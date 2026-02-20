@@ -30,14 +30,6 @@ function PropertyDetail() {
     .split(",")
     .map((c) => parseFloat(c.trim()));
 
-  // const next = () => {
-  //   setCurrent((prev) => (prev === property.fotos.length - 1 ? 0 : prev + 1));
-  // };
-
-  // const prev = () => {
-  //   setCurrent((prev) => (prev === 0 ? property.fotos.length - 1 : prev - 1));
-  // };
-
   const openModal = (index) => {
     setIsOpen(true);
     setCurrent(index);
@@ -64,27 +56,34 @@ function PropertyDetail() {
       <div className="flex flex-row w-full max-w-[1200px] gap-3">
         <div className="flex flex-col w-9/12 gap-4">
           {/* Galeria */}
-          <div className="w-full bg-white shadow-md/30 rounded-xl p-4">
+          <div className="relative w-full bg-white shadow-md/30 rounded-xl p-4">
+            <div className="absolute left-100 bottom-2 bg-sky-500/75 rounded-full">
+              <button className="rounded-md text-white text-sm px-3 py-1 text-shadow-md/30 rounded-full">
+                Mostrar todo
+              </button>
+            </div>
             <div className="flex flex-col gap-3">
               <div className="flex flex-row w-full gap-3">
-                <div className="w-4/6 min-h-[350px] rounded-md">
+                <div className="w-4/6 min-h-[350px] rounded-2xl">
                   <img
                     src={property.fotos[0]}
-                    onClick={() => setCurrent(0)}
-                    className="object-cover h-full rounded-lg cursor-pointer border-1 border-gray-400/70"
+                    onClick={() => openModal(0)}
+                    className="object-cover h-full rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
                   />
                 </div>
                 <div className="flex flex-col w-2/6 gap-3">
                   <div className="h-1/2 rounded-md">
                     <img
                       src={property.fotos[1]}
-                      className="object-cover rounded-lg cursor-pointer border-1 border-gray-400/70"
+                      onClick={() => openModal(1)}
+                      className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
                     />
                   </div>
                   <div className="h-1/2 rounded-md">
                     <img
                       src={property.fotos[2]}
-                      className="object-cover rounded-lg cursor-pointer border-1 border-gray-400/70"
+                      onClick={() => openModal(2)}
+                      className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
                     />
                   </div>
                 </div>
@@ -99,7 +98,7 @@ function PropertyDetail() {
                           key={index}
                           src={foto}
                           onClick={() => openModal(index)}
-                          className="object-cover rounded-lg cursor-pointer border-1 border-gray-400/70"
+                          className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
                         />
                       </div>
                     )

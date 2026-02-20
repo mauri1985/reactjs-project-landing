@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import "react-image-gallery/styles/image-gallery.css";
 import "./index.css";
 import App from "./App.jsx";
 

@@ -7,6 +7,44 @@ body {
   background-color: oklch(97% 0.014 254.604); /*Azul 50 Tailwind*/
 }
 
+:root {
+  --ig-primary-color: #ffffff;
+  --ig-white: #fff;
+  --ig-black: #000;
+  --ig-background-overlay: rgba(0, 0, 0, 0.4);
+  --ig-thumbnail-size: 150px;
+  --ig-thumbnail-size-small: 90px;
+  --ig-thumbnail-border-width: 5px;
+  --ig-thumbnail-border-width-small: 2px;
+  --ig-bullet-size: 5px;
+  --ig-bullet-size-small: 4px;
+}
+
+.image-gallery-thumbnail {
+  display: inline-block;
+  border: var(--ig-thumbnail-border-width, 4px) solid transparent;
+  transition: border 0.3s ease-out;
+  width: var(--ig-thumbnail-size, 96px);
+  background: transparent;
+  padding: 0;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .image-gallery-thumbnail {
+    border: var(--ig-thumbnail-border-width-small, 3px) solid transparent;
+    width: var(--ig-thumbnail-size-small, 80px);
+    border-radius: 8px;
+  }
+}
+
+.image-gallery-thumbnail .image-gallery-thumbnail-image {
+  vertical-align: middle;
+  width: 100%;
+  line-height: 0;
+  border-radius: 5px;
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
