@@ -27,6 +27,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
         ease-out
         md:hover:scale-[1.01]
         md:hover:-translate-y-1
+        shadow-blue-500/75 shadow-md/30
         ${
           viewMode === "list"
             ? "lg:flex-row lg:h-[300px]"
@@ -34,8 +35,8 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
         }
         ${
           property.destacado === true
-            ? "outline-4 outline-sky-500 shadow-xl md:hover:shadow-xl/30"
-            : "outline-2 outline-gray-400/40 shadow-md md:hover:shadow-md/30"
+            ? "outline-4 outline-sky-400/85 font-semibold "
+            : "outline-2 outline-gray-400/30"
         }
       `}
     >
@@ -114,7 +115,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
               e.stopPropagation();
               prevSlide();
             }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white px-2 py-1 h-[50px] w-[30px] rounded-md"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/35 text-white px-2 py-1 h-[85px] w-[45px] rounded-md font-bold z-50"
           >
             ❮
           </button>
@@ -126,7 +127,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
               e.stopPropagation();
               nextSlide();
             }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white px-2 py-1 h-[50px] w-[30px] rounded-md z-50"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/35 text-white px-2 py-1 h-[85px] w-[45px] rounded-md font-bold z-50"
           >
             ❯
           </button>
@@ -162,23 +163,25 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
             viewMode === "grid" ? "h-[180px]" : "h-9/12"
           }`}
         >
-          <p
-            className={`m-1 text-gray-600 text-semibold line-clamp-2 ${
-              viewMode === "grid" ? "lg:line-clamp-2" : "lg:line-clamp-4"
-            }`}
-          >
-            {property.descripcion}
-          </p>
-          <p className="text-xs mt-1 mb-2 text-gray-600 ">
-            <i className="bi bi-geo-alt-fill mr-1" />
-            {property.calle}
-            {property.esquina1 != "" ? ", " + property.esquina1 : ""}
-          </p>
-          <div className="flex flex-col h-18">
+          <div className="h-1/2">
+            <p
+              className={`m-1 text-gray-600 text-semibold line-clamp-2 ${
+                viewMode === "grid" ? "lg:line-clamp-2" : "lg:line-clamp-4"
+              }`}
+            >
+              {property.titulo}
+            </p>
+            <p className="text-xs mt-1 mb-2 text-gray-600 ">
+              <i className="bi bi-geo-alt-fill mr-1" />
+              {property.calle}
+              {property.esquina1 != "" ? ", " + property.esquina1 : ""}
+            </p>
+          </div>
+          <div className="flex flex-col h-1/2">
             {property.precioVenta !== "" ? (
               <span className="m-1 text-2xl text-sky-700 font-semibold ">
                 {property.precioAlquiler !== "" ? "Venta: " : ""}
-                {property.monedaVenta} {property.precioVenta}
+                {property.monedaVenta} {property.precioVenta.toLocaleString()}
               </span>
             ) : (
               <></>
@@ -186,7 +189,8 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
             {property.precioAlquiler !== "" ? (
               <span className="m-1 text-2xl text-sky-700 font-semibold ">
                 {property.precioVenta !== "" ? "Alquiler: " : ""}
-                {property.monedaAlquiler} {property.precioAlquiler}{" "}
+                {property.monedaAlquiler}{" "}
+                {property.precioAlquiler.toLocaleString()}{" "}
                 <span className="text-xl">/ Mes</span>
               </span>
             ) : (

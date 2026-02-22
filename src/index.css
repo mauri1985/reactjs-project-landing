@@ -30,11 +30,26 @@ body {
   border-radius: 10px;
 }
 
+.image-gallery-slides {
+  overflow: hidden;
+  position: relative;
+  touch-action: none;
+  /* GPU acceleration for smooth swiping */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  contain: layout style paint;
+  isolation: isolate;
+  overscroll-behavior: none;
+  border-radius: 15px;
+}
+
 @media (max-width: 768px) {
   .image-gallery-thumbnail {
     border: var(--ig-thumbnail-border-width-small, 3px) solid transparent;
     width: var(--ig-thumbnail-size-small, 80px);
     border-radius: 8px;
+    border-color: skyblue;
+    border-width: 1px;
   }
 }
 

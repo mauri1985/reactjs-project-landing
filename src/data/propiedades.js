@@ -22,12 +22,18 @@ const images2 = [
   "https://picsum.photos/id/15/1200/720",
   "https://picsum.photos/id/16/1200/720",
   "https://picsum.photos/id/17/1200/720",
+  "https://picsum.photos/id/18/1200/720",
+  "https://picsum.photos/id/19/1200/720",
+  "https://picsum.photos/id/20/1200/720",
 ];
 
 const images3 = [
   "https://picsum.photos/id/25/1200/720",
   "https://picsum.photos/id/26/1200/720",
   "https://picsum.photos/id/27/1200/720",
+  "https://picsum.photos/id/28/1200/720",
+  "https://picsum.photos/id/29/1200/720",
+  "https://picsum.photos/id/30/1200/720",
 ];
 
 export const data = [
@@ -103,13 +109,7 @@ export const data = [
     expensas: 0,
     monedaExpensas: "$U",
     fotos: images2,
-    caracteristicas: {
-      ascensor: false,
-      porteria: false,
-      rejas: false,
-      placardCocina: false,
-      camarasCCTV: false,
-    },
+    caracteristicas: ["Ascensor", "Porteria", "Barbacoa"],
     ambientes: ["Living", "Terraza Lavadero"],
     coordenadas: "-34.88917736300291, -56.12755626054236",
     video: "",
@@ -145,13 +145,7 @@ export const data = [
     expensas: 3500,
     monedaExpensas: "$U",
     fotos: images3,
-    caracteristicas: {
-      ascensor: false,
-      porteria: false,
-      rejas: false,
-      placardCocina: false,
-      camarasCCTV: false,
-    },
+    caracteristicas: ["Churrasquera", "Piscina", "Baño en sweet"],
     ambientes: ["Living", "Terraza Lavadero"],
     coordenadas: "-34.88917736300291, -56.12755626054236",
     video: "",

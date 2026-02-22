@@ -1,5 +1,10 @@
 import { useParams } from "react-router-dom";
 import { data } from "../../data/propiedades";
+import useWindowSize from "../../useWindowSize/useWindowSize";
+import { useState, useEffect } from "react";
+import ContactForm from "../ContactForm/ContactForm";
+import Mapa from "../mapa/Mapa";
+import MyGallery from "../myGallery/MyGallery";
 import {
   BedIcon,
   BathIcon,
@@ -8,14 +13,11 @@ import {
   Ruler,
   PinLocation,
 } from "../../icons";
-import { useState, useEffect } from "react";
-import ContactForm from "../ContactForm/ContactForm";
-import Mapa from "../mapa/Mapa";
-import MyGallery from "../myGallery/MyGallery";
 
 function PropertyDetail() {
   const { id } = useParams();
   const property = data.find((p) => p.id === Number(id));
+  const { screenWidth, screenHeight, isMobile } = useWindowSize();
 
   if (!property) return <div>No encontrada</div>;
 
@@ -30,7 +32,7 @@ function PropertyDetail() {
     .split(",")
     .map((c) => parseFloat(c.trim()));
 
-  const openModal = (index) => {
+  const openGallery = (index) => {
     setIsOpen(true);
     setCurrent(index);
   };
@@ -52,78 +54,33 @@ function PropertyDetail() {
   }, [isOpen]);
 
   return (
-    <div className="flex justify-center w-full p-3">
-      <div className="flex flex-row w-full max-w-[1200px] gap-3">
-        <div className="flex flex-col w-9/12 gap-4">
-          {/* Galeria */}
-          <div className="relative w-full bg-white shadow-md/30 rounded-xl p-4">
-            <div className="absolute left-100 bottom-2 bg-sky-500/75 rounded-full">
-              <button className="rounded-md text-white text-sm px-3 py-1 text-shadow-md/30 rounded-full">
-                Mostrar todo
-              </button>
-            </div>
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-row w-full gap-3">
-                <div className="w-4/6 min-h-[350px] rounded-2xl">
-                  <img
-                    src={property.fotos[0]}
-                    onClick={() => openModal(0)}
-                    className="object-cover h-full rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
-                  />
-                </div>
-                <div className="flex flex-col w-2/6 gap-3">
-                  <div className="h-1/2 rounded-md">
-                    <img
-                      src={property.fotos[1]}
-                      onClick={() => openModal(1)}
-                      className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
-                    />
-                  </div>
-                  <div className="h-1/2 rounded-md">
-                    <img
-                      src={property.fotos[2]}
-                      onClick={() => openModal(2)}
-                      className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-row gap-3 w-full">
-                {property.fotos.map(
-                  (foto, index) =>
-                    index > 2 &&
-                    index <= 7 && (
-                      <div className="">
-                        <img
-                          key={index}
-                          src={foto}
-                          onClick={() => openModal(index)}
-                          className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
-                        />
-                      </div>
-                    )
-                )}
-              </div>
-            </div>
-          </div>
-          {/* Título + Descripciones */}
-          <div className="w-full bg-white shadow-md/30 rounded-xl p-6">
-            <div className="flex flex-row md:justify-between md:items-start my-4 gap-">
-              <div className="flex flex-row w-full">
-                <div className="w-9/12">
-                  <h1 className="text-3xl text-gray-700 font-bold pb-1 pl-1">
+    <div className="flex flex-col items-center w-full py-4">
+      <div className="flex lg:flex-row flex-col w-full max-w-[1200px] gap-3">
+        <div className="flex flex-col lg:w-9/12 w-full lg:p-0 px-3 gap-4">
+          {/* Titulo + precio */}
+          <div className="w-full outline-2 outline-sky-500/50 bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl lg:p-8 p-4">
+            <div className="flex flex-row md:justify-between md:items-start gap-3">
+              <div className="flex lg:flex-row flex-col w-full gap-3">
+                <div className="lg:w-9/12 w-full lg:text-left text-center">
+                  <h1 className="line-clamp-5 lg:text-3xl text-xl text-gray-600 font-bold pb-1 pl-1">
                     {property.titulo}
                   </h1>
-                  <PinLocation
-                    className="text-gray-500 inline"
-                    width={"20px"}
-                  />
-                  <p className="text-gray-500 mt-3 inline text-base">
-                    {property.calle} {property.nroPuerta}, {property.barrio},{" "}
-                    {property.departamento}
-                  </p>
+                  <div className="lg:block flex flex-col lg:pt-3 pb-3">
+                    <div>
+                      <PinLocation
+                        className="text-gray-500 inline"
+                        width={"20px"}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-gray-500 mt-3 inline lg:text-base text-sm">
+                        {property.calle} {property.nroPuerta}, {property.barrio}
+                        , {property.departamento}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2 w-3/12 text-end">
+                <div className="flex flex-col gap-2 lg:w-3/12 w-full lg:text-end text-center">
                   {property.precioVenta > 0 && (
                     <div className="text-2xl font-bold text-sky-600 ">
                       {property.monedaVenta}{" "}
@@ -154,39 +111,112 @@ function PropertyDetail() {
                 </div>
               </div>
             </div>
-            {/* Datos rápidos */}
-            <div className="flex flex-wrap justify-between gap-6 p-6 my-6 text-gray-700">
-              <div className="flex flex-col">
+          </div>
+
+          {/* Galeria */}
+          <div className="lg:block hidden w-full bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl lg:p-8 p-4">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-row w-full gap-3">
+                <div className="w-4/6 min-h-[350px] rounded-2xl">
+                  <img
+                    src={property.fotos[0]}
+                    onClick={() => openGallery(0)}
+                    className="object-cover h-full rounded-2xl cursor-zoom-in border-1 border-gray-400/70 transition delay-100 duration-150 ease-in-out hover:scale-102"
+                  />
+                </div>
+                <div className="flex flex-col w-2/6 gap-3">
+                  <div className="h-1/2 rounded-md">
+                    <img
+                      src={property.fotos[1]}
+                      onClick={() => openGallery(1)}
+                      className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70 transition delay-100 duration-150 ease-in-out hover:scale-102"
+                    />
+                  </div>
+                  <div className="h-1/2 rounded-md">
+                    <img
+                      src={property.fotos[2]}
+                      onClick={() => openGallery(2)}
+                      className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70 transition delay-100 duration-150 ease-in-out hover:scale-102"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3 w-full">
+                {property.fotos.map(
+                  (foto, index) =>
+                    index > 2 &&
+                    index <= 5 && (
+                      <div className="col-span-1">
+                        <img
+                          key={index}
+                          src={foto}
+                          onClick={() => openGallery(index)}
+                          className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70 transition delay-100 duration-150 ease-in-out hover:scale-102"
+                        />
+                      </div>
+                    )
+                )}
+              </div>
+              <div className="flex justify-center pt-1">
+                <button
+                  onClick={() => openGallery(0)}
+                  className="bg-sky-500 text-white text-sm px-3 py-1 text-shadow-md/30 outline-2 outline-black/50 rounded-full cursor-pointer 
+                transition delay-150 duration-300 ease-in-out hover:scale-105 hover:bg-sky-600 hover:text-bold"
+                >
+                  Mostrar todas las fotos
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* Galeria mobile */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="lg:hidden block w-full"
+          >
+            <MyGallery
+              images={property.fotos}
+              showThumbnails={true}
+              startIndex={current}
+              showFullscreenButton={false}
+            />
+          </div>
+
+          {/* Datos rapidos + descripcion */}
+          <div className="flex flex-col w-full bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl lg:p-8 p-4">
+            {/* Descripción */}
+            <div className="my-6 text-left text-gray-600">
+              <h2 className="text-xl font-semibold mb-2">Descripción</h2>
+            </div>
+            {/* Iconos + mini descripcion */}
+            <div className="lg:flex lg:flex-wrap grid grid-cols-3 lg:justify-between justify-center gap-5 text-gray-700 w-full lg:text-md text-xs">
+              <div>
                 <BedIcon className="text-gray-500" width={"48px"} />
-                <span className="text-md">{property.dormitorios} Dorm.</span>
+                <span>{property.dormitorios} Dorm.</span>
               </div>
-              <div className="flex flex-col items-center">
+              <div>
                 <BathIcon className="text-gray-500" width={"48px"} />
-                <span className="text-md">{property.banios} baños</span>
+                <span>{property.banios} baños</span>
               </div>
-              <div className="flex flex-col items-center">
+              <div>
                 <Ruler className="text-gray-500" width={"48px"} />
                 <span>Cons: {property.areaConstruida} m²</span>
               </div>
-              <div className="flex flex-col items-center">
+              <div>
                 <BorderStyle className="text-gray-500" width={"48px"} />
                 <span>Tot: {property.areaTotal} m²</span>
               </div>
-              <div className="flex flex-col items-center">
+              <div>
                 <CarGarage className="text-gray-500" width={"48px"} />
                 <span>{property.garages} Garages</span>
               </div>
             </div>
-
-            {/* Descripción */}
-            <div className="mb-6 text-gray-600">
-              <h2 className="text-xl font-semibold mb-2">Descripción</h2>
+            <div className="my-6 text-gray-600">
               <p className="leading-relaxed">{property.descripcion}</p>
             </div>
           </div>
 
           {/* Otros datos */}
-          <div className="w-full bg-white shadow-md/30 rounded-xl p-6">
+          <div className="w-full bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl lg:p-8 p-4">
             {/* Características */}
             <div className="mb-8">
               <h2 className="text-xl text-gray-700 font-semibold mb-3">
@@ -223,8 +253,8 @@ function PropertyDetail() {
               </ul>
             </div>
           </div>
-
-          <div className="flex flex-col gap-5 w-full bg-white shadow-md/30 rounded-xl p-6 text-gray-700">
+          {/* Ubicacion + mapa */}
+          <div className="flex flex-col gap-5 w-full bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl text-gray-700 lg:p-8 p-4">
             {/* Ubicacion */}
             <div className="">
               <h2 className="text-xl font-semibold">Ubicación</h2>
@@ -249,26 +279,26 @@ function PropertyDetail() {
                 </span>
               </div>
             </div>
-            <div className="shadow-md/30 rounded-xl">
+            <div className={`shadow-md/30 rounded-xl`}>
               <Mapa
                 lat={lat}
                 lng={lng}
-                heigth={"400px"}
+                heigth={isMobile ? "300px" : "400px"}
                 popup={property.calle + " " + property.nroPuerta}
               />
             </div>
           </div>
         </div>
-        {/* Formulario sencillo */}
-        <div className="w-3/12">
-          <div className="flex flex-col  gap-3">
-            <div className="bg-white rounded-xl shadow-md/30 p-3 space-y-6">
+        {/* Formulario contacto */}
+        <div className="lg:w-3/12 w-full lg:p-0 px-4">
+          <div className="flex flex-col gap-3">
+            <div className="bg-white rounded-2xl shadow-blue-500/75 shadow-md/30 p-3 space-y-6">
               <ContactForm property={property} />
             </div>
-            <div className="bg-white rounded-xl shadow-md/30 p-3">
+            <div className="bg-white rounded-2xl shadow-blue-500/75 shadow-md/30 p-3">
               Anuncios similares...
             </div>
-            <div className="bg-white rounded-xl shadow-md/30 p-3">
+            <div className="bg-white rounded-2xl shadow-blue-500/75 shadow-md/30 p-3">
               Publicidad...
             </div>
           </div>
@@ -284,6 +314,7 @@ function PropertyDetail() {
               images={property.fotos}
               showThumbnails={true}
               startIndex={current}
+              showFullscreenButton={true}
             />
           </div>
         </div>

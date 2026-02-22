@@ -28,7 +28,7 @@ const Mapa = ({ lat, lng, heigth, popup }) => {
   }, []);
 
   return (
-    <div className="overflow-hidden rounded-xl">
+    <div className={`overflow-hidden rounded-xl h-[${heigth}]`}>
       <MapContainer
         center={[lat, lng]}
         zoom={15}
