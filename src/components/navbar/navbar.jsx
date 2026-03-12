@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../../assets/Logo.png";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { ProfileIcon } from "../../icons";
 
 const Navbar = () => {
   const location = useLocation();
@@ -73,13 +74,12 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400 z-50 shadow-md/30 backdrop-blur-sm h-15 md:h-20">
-      <div className="flex justify-between items-center sm:px-12 sm:py-6 px-4 py-2 h-full">
+    // <nav className="fixed top-0 left-0 w-full bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400 z-50 shadow-md/30 backdrop-blur-sm h-15 md:h-20">
+    <nav className="sticky top-0 z-50 bg-sky-400 shadow-md/30 scroll-margin-top">
+      {/* <div className="flex justify-between items-center sm:px-12 sm:py-6 px-4 py-2 h-full"> */}
+      <div className="max-w-screen-xl mx-auto py-2 px-6 flex justify-between items-center">
         <div className="flex">
           <img src={Logo} alt="Logo de la empresa" className="w-[30px] mr-5" />
-          <a className="text-white text-shadow-lg/30 text-2xl overflow-hidden whitespace-nowrap text-ellipsis mr-5">
-            Inmobiliaria feliz
-          </a>
         </div>
 
         {/* Botom hamburguesa */}
@@ -109,12 +109,18 @@ const Navbar = () => {
                 <li key={link.id}>
                   <NavLink
                     to={link.to}
-                    className={({ isActive }) => {
-                      const active = isQueryLink ? isQueryActive : isActive;
-
-                      return `sm:text-lg text-sm transition-transform hover:scale-110 transform inline-block duration-300 text-shadow-lg/30 text-white
-                ${active ? "font-bold underline underline-offset-8" : ""}`;
-                    }}
+                    className="
+                    px-2
+                    py-1
+                    rounded-md                    
+                    transition-transform 
+                    hover:scale-110 
+                    hover:bg-sky-500                
+                    transform inline-block 
+                    duration-300 
+                    text-md
+                    text-shadow-lg/30 
+                    text-white"
                   >
                     {link.title}
                   </NavLink>
@@ -123,15 +129,24 @@ const Navbar = () => {
             })}
             <li className="flex items-center">
               <a
-                title="PUBLICAR PROPIEDAD"
-                className="bg-white/40 px-4 py-2 rounded-full
-                          transition-transform hover:scale-110 inline-block duration-300 text-shadow-lg/30
-                          max-w-[140px] sm:max-w-none"
+                title="PUBLICAR"
+                className="
+                bg-white/30
+                px-4 
+                py-2 
+                rounded-md                          
+                transition-transform 
+                hover:scale-110 
+                hover:bg-white/50
+                inline-block 
+                duration-300
+                text-md
+                text-shadow-lg/30                          
+                max-w-[140px] sm:max-w-none"
               >
                 <p className="overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer">
-                  <i className="bi bi-plus mr-2 hidden lg:inline" />
-                  PUBLICAR
-                  <span className="hidden xl:inline ml-1">PROPIEDAD</span>
+                  {/* <i className="bi bi-plus mr-2 hidden lg:inline" /> */}
+                  PUBLICAR PROPIEDAD
                 </p>
               </a>
             </li>
@@ -140,7 +155,25 @@ const Navbar = () => {
 
         {/* Redes */}
         <div className="hidden lg:block">
-          <ul className="flex sm:space-x-8 space-x-4 text-white items-center">
+          <button
+            className="
+              px-3
+              py-2
+              bg-white/30            
+              rounded-md                    
+              transition-transform 
+              hover:scale-110 
+              hover:bg-white/50                
+              transform inline-block 
+              duration-300 
+              text-md
+              text-shadow-lg/30 
+              text-white"
+          >
+            <ProfileIcon className="inline-block w-5 h-5 text-white mr-2 drop-shadow-md/40" />
+            Ingresar
+          </button>
+          <ul className="lg:hidden flex sm:space-x-8 space-x-4 text-white items-center">
             {navbarRedes.map((link) => (
               <li key={link.id}>
                 <a

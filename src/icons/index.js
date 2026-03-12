@@ -10,3 +10,5 @@ export { default as BorderOuter } from "./BorderOuter";
 export { default as HomePinIcon } from "./HomePinIcon";
 export { default as Ruler } from "./Ruler";
 export { default as WhatsAppIcon } from "./WhatsApp";
+export { default as PaymentsIcon } from "./PaymentsIcon";
+export { default as ProfileIcon } from "./ProfileIcon";

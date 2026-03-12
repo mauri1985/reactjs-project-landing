@@ -12,6 +12,7 @@ import {
   CarGarage,
   Ruler,
   PinLocation,
+  PaymentsIcon,
 } from "../../icons";
 
 function PropertyDetail() {
@@ -58,14 +59,20 @@ function PropertyDetail() {
       <div className="flex lg:flex-row flex-col w-full max-w-[1200px] gap-3">
         <div className="flex flex-col lg:w-9/12 w-full lg:p-0 px-3 gap-4">
           {/* Titulo + precio */}
-          <div className="w-full outline-2 outline-sky-500/50 bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl lg:p-8 p-4">
+          <div
+            className={`w-full bg-white shadow-sky-500 shadow-md/30 rounded-2xl lg:p-8 p-4 ${
+              property.destacado
+                ? "outline-4 outline-sky-500/50"
+                : "outline-2 outline-gray-200"
+            }`}
+          >
             <div className="flex flex-row md:justify-between md:items-start gap-3">
               <div className="flex lg:flex-row flex-col w-full gap-3">
                 <div className="lg:w-9/12 w-full lg:text-left text-center">
                   <h1 className="line-clamp-5 lg:text-3xl text-xl text-gray-600 font-bold pb-1 pl-1">
                     {property.titulo}
                   </h1>
-                  <div className="lg:block flex flex-col lg:pt-3 pb-3">
+                  <div className="flex lg:flex-row flex-col lg:pt-3 pb-3">
                     <div>
                       <PinLocation
                         className="text-gray-500 inline"
@@ -82,30 +89,47 @@ function PropertyDetail() {
                 </div>
                 <div className="flex flex-col gap-2 lg:w-3/12 w-full lg:text-end text-center">
                   {property.precioVenta > 0 && (
-                    <div className="text-2xl font-bold text-sky-600 ">
-                      {property.monedaVenta}{" "}
-                      {property.precioVenta.toLocaleString()}
+                    <div className="lg:text-2xl text-xl font-bold text-sky-600  ">
+                      <p className="my-0 py-0">
+                        {property.monedaVenta}{" "}
+                        {property.precioVenta.toLocaleString()}
+                      </p>
                       <span className="block text-gray-500 font-thin text-xs">
                         Precio de venta
                       </span>
+                      {/* <div className="flex lg:justify-end justify-center">
+                        <p className="w-max my-0 py-0 rounded-sm text-white text-xs font-thin bg-green-500/85 px-[4px] py-[2px]">
+                          Venta
+                        </p>
+                      </div> */}
                     </div>
                   )}
                   {property.precioAlquiler > 0 && (
-                    <div className="text-2xl font-bold text-sky-600">
+                    <div className="lg:text-2xl text-xl font-bold text-sky-600">
                       {property.monedaAlquiler}{" "}
                       {property.precioAlquiler.toLocaleString()}
                       <span className="block text-gray-500 font-thin text-xs">
                         Precio de alquiler
                       </span>
+                      {/* <div className="flex lg:justify-end justify-center">
+                        <p className="w-max my-0 py-0 rounded-sm text-white text-xs font-thin bg-sky-500 px-[4px] py-[2px]">
+                          Alquiler
+                        </p>
+                      </div> */}
                     </div>
                   )}
                   {property.expensas > 0 && (
-                    <div className="text-2xl font-bold text-sky-600">
+                    <div className="lg:text-xl text-md font-bold text-sky-600">
                       + {property.monedaExpensas}{" "}
                       {property.expensas.toLocaleString()}{" "}
                       <span className="block text-gray-500 font-thin text-xs">
                         Gastos comunes
                       </span>
+                      {/* <div className="flex lg:justify-end justify-center">
+                        <p className="w-max my-0 py-0 rounded-sm text-white text-xs font-thin bg-gray-400 px-[4px] py-[2px]">
+                          Gastos comunes
+                        </p>
+                      </div> */}
                     </div>
                   )}
                 </div>
@@ -114,15 +138,36 @@ function PropertyDetail() {
           </div>
 
           {/* Galeria */}
-          <div className="lg:block hidden w-full bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl lg:p-8 p-4">
+          <div className="lg:block hidden w-full bg-white shadow-sky-500/50 shadow-md/30 rounded-2xl lg:p-8 p-4">
             <div className="flex flex-col gap-3">
               <div className="flex flex-row w-full gap-3">
-                <div className="w-4/6 min-h-[350px] rounded-2xl">
+                <div className="relative w-4/6 min-h-[350px] rounded-2xl transition delay-100 duration-150 ease-in-out hover:scale-102">
                   <img
                     src={property.fotos[0]}
                     onClick={() => openGallery(0)}
-                    className="object-cover h-full rounded-2xl cursor-zoom-in border-1 border-gray-400/70 transition delay-100 duration-150 ease-in-out hover:scale-102"
+                    className="object-cover h-full rounded-2xl cursor-zoom-in border-1 border-gray-400/70"
                   />
+                  <div className="absolute left-[10px] top-[10px]">
+                    <div className="flex flex-row gap-3 items-center ">
+                      {property.destacado === true && (
+                        <div className="rounded-sm shadow-md/30 bg-red-600 text-white text-xs px-2 py-1">
+                          DESTACADO
+                        </div>
+                      )}
+
+                      {property.precioVenta !== "" && (
+                        <div className="rounded-sm shadow-md/30 bg-green-600 text-white text-xs px-2 py-1">
+                          VENTA
+                        </div>
+                      )}
+
+                      {property.precioAlquiler !== "" && (
+                        <div className="rounded-sm shadow-md/30 bg-sky-600 text-white text-xs px-2 py-1">
+                          ALQUILER
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className="flex flex-col w-2/6 gap-3">
                   <div className="h-1/2 rounded-md">
@@ -146,9 +191,8 @@ function PropertyDetail() {
                   (foto, index) =>
                     index > 2 &&
                     index <= 5 && (
-                      <div className="col-span-1">
+                      <div key={index} className="col-span-1">
                         <img
-                          key={index}
                           src={foto}
                           onClick={() => openGallery(index)}
                           className="object-cover rounded-2xl cursor-zoom-in border-1 border-gray-400/70 transition delay-100 duration-150 ease-in-out hover:scale-102"
@@ -161,7 +205,7 @@ function PropertyDetail() {
                 <button
                   onClick={() => openGallery(0)}
                   className="bg-sky-500 text-white text-sm px-3 py-1 text-shadow-md/30 outline-2 outline-black/50 rounded-full cursor-pointer 
-                transition delay-150 duration-300 ease-in-out hover:scale-105 hover:bg-sky-600 hover:text-bold"
+                            transition duration-300 ease-in-out hover:scale-105 hover:bg-sky-600 hover:text-bold"
                 >
                   Mostrar todas las fotos
                 </button>
@@ -182,32 +226,60 @@ function PropertyDetail() {
           </div>
 
           {/* Datos rapidos + descripcion */}
-          <div className="flex flex-col w-full bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl lg:p-8 p-4">
+          <div className="flex flex-col w-full bg-white shadow-sky-500/50 shadow-md/30 rounded-2xl lg:p-8 p-4">
             {/* Descripción */}
             <div className="my-6 text-left text-gray-600">
               <h2 className="text-xl font-semibold mb-2">Descripción</h2>
             </div>
             {/* Iconos + mini descripcion */}
-            <div className="lg:flex lg:flex-wrap grid grid-cols-3 lg:justify-between justify-center gap-5 text-gray-700 w-full lg:text-md text-xs">
-              <div>
+            <div
+              className="lg:flex lg:flex-wrap 
+                            grid grid-cols-3 
+                            lg:justify-between justify-center gap-5 
+                            text-gray-700 w-full 
+                            lg:text-md text-xs
+                            lg:pr-6"
+            >
+              <div
+                className="flex flex-col items-center"
+                title="Cantidad de dormitorios"
+              >
                 <BedIcon className="text-gray-500" width={"48px"} />
                 <span>{property.dormitorios} Dorm.</span>
               </div>
-              <div>
+              <div
+                className="flex flex-col items-center"
+                title="Cantidad de baños"
+              >
                 <BathIcon className="text-gray-500" width={"48px"} />
                 <span>{property.banios} baños</span>
               </div>
-              <div>
+              <div
+                className="flex flex-col items-center"
+                title="Área edificada"
+              >
                 <Ruler className="text-gray-500" width={"48px"} />
                 <span>Cons: {property.areaConstruida} m²</span>
               </div>
-              <div>
+              <div className="flex flex-col items-center" title="Área total">
                 <BorderStyle className="text-gray-500" width={"48px"} />
                 <span>Tot: {property.areaTotal} m²</span>
               </div>
-              <div>
+              <div
+                className="flex flex-col items-center"
+                title="Cantidad de garages"
+              >
                 <CarGarage className="text-gray-500" width={"48px"} />
                 <span>{property.garages} Garages</span>
+              </div>
+              <div
+                className="flex flex-col items-center"
+                title="Gastos comunes"
+              >
+                <PaymentsIcon className="text-gray-500" width={"48px"} />
+                <span>
+                  +{property.monedaExpensas + " " + property.expensas}
+                </span>
               </div>
             </div>
             <div className="my-6 text-gray-600">
@@ -216,7 +288,7 @@ function PropertyDetail() {
           </div>
 
           {/* Otros datos */}
-          <div className="w-full bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl lg:p-8 p-4">
+          <div className="w-full bg-white shadow-sky-500/50 shadow-md/30 rounded-2xl lg:p-8 p-4">
             {/* Características */}
             <div className="mb-8">
               <h2 className="text-xl text-gray-700 font-semibold mb-3">
@@ -254,7 +326,7 @@ function PropertyDetail() {
             </div>
           </div>
           {/* Ubicacion + mapa */}
-          <div className="flex flex-col gap-5 w-full bg-white shadow-blue-500/75 shadow-md/30 rounded-2xl text-gray-700 lg:p-8 p-4">
+          <div className="flex flex-col gap-5 w-full bg-white shadow-sky-500/50 shadow-md/30 rounded-2xl text-gray-700 lg:p-8 p-4">
             {/* Ubicacion */}
             <div className="">
               <h2 className="text-xl font-semibold">Ubicación</h2>
@@ -292,13 +364,13 @@ function PropertyDetail() {
         {/* Formulario contacto */}
         <div className="lg:w-3/12 w-full lg:p-0 px-4">
           <div className="flex flex-col gap-3">
-            <div className="bg-white rounded-2xl shadow-blue-500/75 shadow-md/30 p-3 space-y-6">
+            <div className="bg-white rounded-2xl shadow-sky-500/50 shadow-md/30 p-3 space-y-6">
               <ContactForm property={property} />
             </div>
-            <div className="bg-white rounded-2xl shadow-blue-500/75 shadow-md/30 p-3">
+            <div className="bg-white rounded-2xl shadow-sky-500/50 shadow-md/30 p-3">
               Anuncios similares...
             </div>
-            <div className="bg-white rounded-2xl shadow-blue-500/75 shadow-md/30 p-3">
+            <div className="bg-white rounded-2xl shadow-sky-500/50 shadow-md/30 p-3">
               Publicidad...
             </div>
           </div>

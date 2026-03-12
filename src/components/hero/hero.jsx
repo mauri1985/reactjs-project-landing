@@ -1,10 +1,12 @@
 import React from "react";
 import bgImg from "../../assets/02.jpg";
 import MultiSelect from "../MultiSelect/MultiSelect";
+import TituloAnimado from "../TituloAnimado/TituloAnimado";
+import TextoAnimado from "../TextoAnimado/TextoAnimado";
 
 const Hero = () => {
   return (
-    <section id="hero" className="mt-16 p-3 md:p-5 md:mt-20">
+    <section id="hero" className="">
       <div
         className="relative
                   bg-cover bg-no-repeat bg-center
@@ -17,24 +19,19 @@ const Hero = () => {
         {/* Contenido */}
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-white text-center px-4">
           {/* Título */}
-          <h1
-            className="text-3xl md:text-5xl leading-tight md:leading-snug font-bold drop-shadow-lg
-                      opacity-0 animate-fade-up delay-200 text-shadow-lg/30"
-          >
-            Alquiler y venta de propiedades
-          </h1>
+          <TituloAnimado
+            texto="Alquiler y venta de propiedades"
+            color="text-white"
+          />
 
           {/* Texto */}
-          <p
-            className="md:mt-6 mt-3 mb-3 max-w-3xl font-medium text-white
-                      opacity-0 animate-fade-up delay-400 text-sm md:text-base max-w-md md:max-w-3xl
-                      text-shadow-lg/30"
-          >
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas
+          <TextoAnimado
+            texto="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas
             harum, deleniti sed necessitatibus ab laborum delectus veniam,
             libero error placeat dolorum perferendis vitae ex, dolore voluptas.
-            Consequuntur suscipit beatae libero!
-          </p>
+            Consequuntur suscipit beatae libero!"
+            color="text-white"
+          ></TextoAnimado>
 
           {/* Buscador */}
           <div className="relative z-20 w-5/6 max-w-5xl ">

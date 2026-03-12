@@ -100,12 +100,9 @@ export default function ListaAnuncios() {
   const operacion = params.get("operacion");
 
   return (
-    <div
-      id="listaAnuncios"
-      className="flex flex-col items-center w-full gap-3 pt-3 mb-5"
-    >
+    <div id="listaAnuncios" className="flex flex-col items-center gap-3">
       {/* Barra superior (desktop) */}
-      <div className="lg:flex flex-row hidden mx-3 mt-3 w-5/6 gap-3 justify-center">
+      <div className="lg:flex flex-row hidden mx-3 w-5/6 gap-3 justify-center">
         <div id="divBtnMapa">
           <button className="flex items-center text-gray-500 bg-white py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold">
             <i className="bi bi-map-fill mr-2"></i>
@@ -167,10 +164,7 @@ export default function ListaAnuncios() {
       </div>
 
       {/* Contenedor principal */}
-      <div
-        id="contenedorPrincipal"
-        className="lg:w-5/6 w-98 flex flex-col gap-3"
-      >
+      <div id="contenedorPrincipal" className="flex flex-col gap-3">
         {/* Acciones mobile */}
         <div className="flex lg:hidden flex-row gap-3 items-center">
           <button
@@ -208,7 +202,7 @@ export default function ListaAnuncios() {
                 )}
               </div>
             </button>
-            {isOpenOrderMobile ? (
+            {isOpenOrderMobile && (
               <div className="absolute animate-fade-down text-md text-gray-600 bg-white z-50 shadow-md">
                 <div className="flex flex-col">
                   <button
@@ -223,8 +217,6 @@ export default function ListaAnuncios() {
                   </button>
                 </div>
               </div>
-            ) : (
-              <></>
             )}
           </div>
         </div>

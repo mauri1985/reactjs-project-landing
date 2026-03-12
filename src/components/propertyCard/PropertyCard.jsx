@@ -27,7 +27,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
         ease-out
         md:hover:scale-[1.01]
         md:hover:-translate-y-1
-        shadow-blue-500/75 shadow-md/30
+        shadow-sky-500/75 shadow-md/30
         ${
           viewMode === "list"
             ? "lg:flex-row lg:h-[300px]"
@@ -35,7 +35,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
         }
         ${
           property.destacado === true
-            ? "outline-4 outline-sky-400/85 font-semibold "
+            ? "outline-4 outline-sky-400/50 shadow-sky-500/75 shadow-md/75 font-semibold "
             : "outline-2 outline-gray-400/30"
         }
       `}
@@ -61,22 +61,22 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
             ))}
           </div>
 
-          <div className="absolute left-[10px] top-[10px] text-white text-xs font-semibold">
+          <div className="absolute left-[10px] top-[10px]">
             <div className="flex flex-row gap-3 items-center ">
               {property.destacado === true && (
-                <div className="rounded-md bg-red-500/85 shadow-md/30 text-shadow-md/30 px-3 py-2">
+                <div className="rounded-sm shadow-md/30 bg-red-600 text-white text-xs font-thin px-2 py-1">
                   DESTACADO
                 </div>
               )}
 
               {property.precioVenta !== "" && (
-                <div className="rounded-md bg-green-500/85 shadow-md/30 text-shadow-md/30 px-3 py-2">
+                <div className="rounded-sm shadow-md/30 bg-green-600 text-white text-xs font-thin px-2 py-1">
                   VENTA
                 </div>
               )}
 
               {property.precioAlquiler !== "" && (
-                <div className="rounded-md bg-blue-500/85 shadow-md/30 text-shadow-md/30 px-3 py-2">
+                <div className="rounded-sm shadow-md/30 bg-sky-600 text-white text-xs font-thin px-2 py-1">
                   ALQUILER
                 </div>
               )}
@@ -84,7 +84,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
           </div>
 
           {/* Favoritos */}
-          <div className="absolute right-[15px] top-[15px] text-xs text-sky-600 font-semibold ">
+          <div className="absolute right-[10px] top-[10px]">
             <button
               className="z-50"
               onClick={(e) => {
@@ -94,7 +94,9 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
               }}
             >
               <HeartAlt
-                className="transition-all 
+                className="
+                text-xs text-sky-500
+                transition-all 
                 transition-transform                 
                 duration-300 
                 ease-out
@@ -115,7 +117,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
               e.stopPropagation();
               prevSlide();
             }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/35 text-white px-2 py-1 h-[85px] w-[45px] rounded-md font-bold z-50"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/35 text-white px-2 py-1 h-[50px] w-[35px] rounded-md font-bold z-50"
           >
             ❮
           </button>
@@ -127,7 +129,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
               e.stopPropagation();
               nextSlide();
             }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/35 text-white px-2 py-1 h-[85px] w-[45px] rounded-md font-bold z-50"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/35 text-white px-2 py-1 h-[50px] w-[35px] rounded-md font-bold z-50"
           >
             ❯
           </button>
@@ -142,7 +144,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
                   e.stopPropagation();
                   setCurrent(index);
                 }}
-                className={`w-2.5 h-2.5 rounded-full transition-all ${
+                className={`w-2.5 h-2.5 rounded-full transition-all border-1 border-white ${
                   current === index ? "bg-white scale-110" : "bg-white/50"
                 }`}
               />
@@ -178,23 +180,19 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
             </p>
           </div>
           <div className="flex flex-col h-1/2">
-            {property.precioVenta !== "" ? (
+            {property.precioVenta !== "" && (
               <span className="m-1 text-2xl text-sky-700 font-semibold ">
                 {property.precioAlquiler !== "" ? "Venta: " : ""}
                 {property.monedaVenta} {property.precioVenta.toLocaleString()}
               </span>
-            ) : (
-              <></>
             )}
-            {property.precioAlquiler !== "" ? (
+            {property.precioAlquiler !== "" && (
               <span className="m-1 text-2xl text-sky-700 font-semibold ">
                 {property.precioVenta !== "" ? "Alquiler: " : ""}
                 {property.monedaAlquiler}{" "}
                 {property.precioAlquiler.toLocaleString()}{" "}
                 <span className="text-xl">/ Mes</span>
               </span>
-            ) : (
-              <></>
             )}
           </div>
         </div>
