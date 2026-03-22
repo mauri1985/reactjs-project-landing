@@ -36,6 +36,77 @@ const images3 = [
   "https://picsum.photos/id/30/1200/720",
 ];
 
+const barrios = [
+  "Buceo",
+  "Pocitos",
+  "Cordón",
+  "Centro",
+  "Parque Rodó",
+  "Malvín",
+  "Punta Carretas",
+  "Tres Cruces",
+];
+
+const operacionesList = [
+  ["venta"],
+  ["alquiler"],
+  ["proyecto"],
+  ["venta", "alquiler"],
+  ["venta", "proyecto"],
+  ["alquiler", "temporada"],
+];
+
+export function generarPropiedades(cantidad) {
+  return Array.from({ length: cantidad }, (_, i) => {
+    const id = i + 1;
+
+    const fotosRandom = [images1, images2, images3][i % 3];
+    const operacionesRandom = operacionesList[i % operacionesList.length];
+
+    return {
+      id,
+      ref: 100 + id,
+      inmobiliaria: "",
+      titulo: `Apartamento ${1 + (i % 3)} dorm. en ${
+        barrios[i % barrios.length]
+      }`,
+      descripcion:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Simulación de descripción de propiedad.",
+      calle: "Av. Mariscal Francisco Solano Lopez",
+      esquina1: "Magenta",
+      esquina2: "Plutarco",
+      nroPuerta: "1781",
+      letra: "",
+      barrio: barrios[i % barrios.length],
+      departamento: "Montevideo",
+      apartamento: `${100 + id}`,
+      dormitorios: 1 + (i % 3),
+      banios: 1 + (i % 2),
+      areaEdificada: 60 + i * 2,
+      areaTotal: 70 + i * 2,
+      areaConstruida: 55 + i * 2,
+      garages: i % 2,
+      disposicion: i % 2 === 0 ? "frente" : "contrafrente",
+      precioVenta: operacionesRandom.includes("venta") ? 90000 + i * 5000 : "",
+      precioAlquiler: operacionesRandom.includes("alquiler")
+        ? 18000 + i * 800
+        : "",
+      monedaVenta: operacionesRandom.includes("venta") ? "U$S" : "",
+      monedaAlquiler: operacionesRandom.includes("alquiler") ? "$U" : "",
+      expensas: 2000 + i * 100,
+      monedaExpensas: "$U",
+      fotos: fotosRandom,
+      caracteristicas: ["Ascensor", "Porteria", "Cámaras de seguridad"],
+      ambientes: ["Living", "Terraza Lavadero"],
+      coordenadas: "-34.88917736300291, -56.12755626054236",
+      video: "",
+      destacado: i % 7 === 0,
+      favorito: false,
+      operaciones: operacionesRandom,
+    };
+  });
+}
+
 export const data = [
   {
     id: 1,
@@ -79,6 +150,7 @@ export const data = [
     video: "",
     destacado: true,
     favorito: true,
+    operaciones: ["venta", "alquiler", "proyecto"],
   },
   {
     id: 2,
@@ -115,6 +187,7 @@ export const data = [
     video: "",
     destacado: false,
     favorito: false,
+    operaciones: ["venta"],
   },
   {
     id: 3,
@@ -151,5 +224,6 @@ export const data = [
     video: "",
     destacado: false,
     favorito: true,
+    operaciones: ["alquiler", "temporada"],
   },
 ];

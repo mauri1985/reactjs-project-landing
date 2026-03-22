@@ -76,10 +76,22 @@ const Navbar = () => {
   return (
     // <nav className="fixed top-0 left-0 w-full bg-linear-45 from-indigo-400 via-sky-400 to-emerald-400 z-50 shadow-md/30 backdrop-blur-sm h-15 md:h-20">
     <nav className="sticky top-0 z-50 bg-sky-400 shadow-md/30 scroll-margin-top">
-      {/* <div className="flex justify-between items-center sm:px-12 sm:py-6 px-4 py-2 h-full"> */}
-      <div className="max-w-screen-xl mx-auto py-2 px-6 flex justify-between items-center">
-        <div className="flex">
-          <img src={Logo} alt="Logo de la empresa" className="w-[30px] mr-5" />
+      <div className="max-w-screen-2xl mx-auto py-2 px-6 flex justify-between items-center">
+        <div className="flex flex-row items-center">
+          <div>
+            <img
+              src={Logo}
+              alt="Logo de la empresa"
+              className="w-[35px] mr-5"
+            />
+          </div>
+          <div
+            className="text-xl
+                    text-shadow-lg/30 
+                    text-white"
+          >
+            INMOBILIARIAS
+          </div>
         </div>
 
         {/* Botom hamburguesa */}
@@ -98,13 +110,6 @@ const Navbar = () => {
         <div className="hidden lg:block mr-5">
           <ul className="flex sm:space-x-8 space-x-4 text-white items-center">
             {navbarLinks.map((link) => {
-              const isQueryLink = !!link.operacion;
-
-              const isQueryActive =
-                isQueryLink &&
-                location.pathname === "/listado" &&
-                operacionActual === link.operacion;
-
               return (
                 <li key={link.id}>
                   <NavLink

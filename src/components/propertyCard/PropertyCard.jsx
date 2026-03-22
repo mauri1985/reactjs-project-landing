@@ -29,9 +29,9 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
         md:hover:-translate-y-1
         shadow-sky-500/75 shadow-md/30
         ${
-          viewMode === "list"
-            ? "lg:flex-row lg:h-[300px]"
-            : "lg:flex-col lg:w-[380px] w-full"
+          viewMode === "grid"
+            ? "w-full max-w-[420px] mx-auto"
+            : "lg:flex-row lg:h-[350px]"
         }
         ${
           property.destacado === true
@@ -42,8 +42,8 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
     >
       {/* Imagen */}
       <div
-        className={`flex justify-center items-center lg:w-[380px] bg-green-200 
-        ${viewMode === "grid" ? "h-[300px]" : "min-w-[380px]"}`}
+        className={`flex justify-center items-center 
+        ${viewMode === "grid" ? "h-[300px] lg:w-full" : "w-[500px] "}`}
       >
         <div className="relative bg-gray-400/50 h-full w-full overflow-hidden">
           {/* Contenedor deslizante */}

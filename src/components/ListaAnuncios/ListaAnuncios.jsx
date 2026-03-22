@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import PropertyCard from "../propertyCard/PropertyCard";
 import { useSearchParams } from "react-router-dom";
 import Filtro from "../Filtro/filtro";
-import { data as initialData } from "../../data/propiedades";
+import { generarPropiedades } from "../../data/propiedades";
 
 export default function ListaAnuncios() {
   const [isOpenFilters, setIsOpenFilters] = useState(false);
@@ -11,6 +11,7 @@ export default function ListaAnuncios() {
   const [viewMode, setViewMode] = useState("grid"); // "grid" | "list"
   const orderRefDesktop = useRef(null);
   const orderRefMobile = useRef(null);
+  const listRef = useRef(null);
 
   const toggleFavorito = (id) => {
     setProperties((prev) =>
@@ -95,14 +96,56 @@ export default function ListaAnuncios() {
     { codigo: 6, descripcion: "Artigas", cantidad: 8 },
   ];
 
-  const [properties, setProperties] = useState(initialData);
+  const [properties, setProperties] = useState(generarPropiedades(2000));
   const [params] = useSearchParams();
   const operacion = params.get("operacion");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+
+  const indexOfLastProperty = currentPage * itemsPerPage;
+  const indexOfFirstProperty = indexOfLastProperty - itemsPerPage;
+
+  const filteredProperties = properties.filter((prop) =>
+    prop.operaciones.includes(operacion)
+  );
+
+  const currentProperties = filteredProperties.slice(
+    indexOfFirstProperty,
+    indexOfLastProperty
+  );
+
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
+  const maxVisiblePages = 5;
+
+  let startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+  let endPage = startPage + maxVisiblePages - 1;
+
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(endPage - maxVisiblePages + 1, 1);
+  }
+
+  const visiblePages = [];
+
+  for (let i = startPage; i <= endPage; i++) {
+    visiblePages.push(i);
+  }
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [operacion]);
+
+  useEffect(() => {
+    listRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [currentPage]);
 
   return (
     <div id="listaAnuncios" className="flex flex-col items-center gap-3">
       {/* Barra superior (desktop) */}
-      <div className="lg:flex flex-row hidden mx-3 w-5/6 gap-3 justify-center">
+      <div className="lg:flex flex-row hidden mx-3 gap-3 justify-center">
         <div id="divBtnMapa">
           <button className="flex items-center text-gray-500 bg-white py-1 px-2 rounded-sm shadow-sm text-xs min-h-[30px] focus:ring-3 focus:ring-blue-300 font-bold">
             <i className="bi bi-map-fill mr-2"></i>
@@ -164,7 +207,7 @@ export default function ListaAnuncios() {
       </div>
 
       {/* Contenedor principal */}
-      <div id="contenedorPrincipal" className="flex flex-col gap-3">
+      <div id="contenedorPrincipal" className="flex flex-col gap-3 w-full">
         {/* Acciones mobile */}
         <div className="flex lg:hidden flex-row gap-3 items-center">
           <button
@@ -222,40 +265,102 @@ export default function ListaAnuncios() {
         </div>
 
         {/* Filtros + listado */}
-        <div className="flex lg:flex-row justify-center flex-col lg:gap-5 gap-2">
+        <div className="flex flex-col lg:flex-row lg:gap-5 gap-2">
           {/* Filtros */}
           <div
             className={`
-            lg:w-[250px] min-w-[200px]
+            lg:w-[275px] min-w-[250px]
             lg:block
             ${isOpenFilters ? "block animate-fade-down" : "hidden"}
             lg:animate-none
           `}
           >
-            <div className="flex flex-col gap-4 mb-3">
+            <div className="flex flex-col gap-3 mb-3">
               <Filtro title="Tipo de operación" options={tipoOperaciones} />
               <Filtro title="Tipo de propiedad" options={tipoPropiedades} />
               <Filtro title="Departamentos" options={departamento} />
             </div>
           </div>
-
           {/* Listado */}
-          <div className="lg:w-[800px]">
+          <div ref={listRef} className="w-full  scroll-mt-30">
             <div
-              className={`flex gap-4 lg:gap-6
+              className={`
               ${
-                viewMode === "grid" ? "flex-wrap justify-between" : "flex-col"
+                viewMode === "grid"
+                  ? "lg:grid grid-cols-3 gap-6 flex flex-col pt-1"
+                  : "flex flex-col gap-4 lg:gap-6"
               }`}
             >
-              {properties.map((prop) => (
-                <div key={prop.id}>
-                  <PropertyCard
-                    viewMode={viewMode}
-                    property={prop}
-                    toggleFavorito={toggleFavorito}
-                  />
-                </div>
+              {currentProperties.map((prop) => (
+                <PropertyCard
+                  key={prop.id}
+                  viewMode={viewMode}
+                  property={prop}
+                  toggleFavorito={toggleFavorito}
+                />
               ))}
+            </div>
+            {/* Indicadores de pagina */}
+            <div className="flex justify-center items-center gap-2 mt-8">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-2 border rounded disabled:opacity-40 text-gray-600 border-gray-600 hover:bg-sky-200"
+              >
+                ◀
+              </button>
+
+              {startPage > 1 && (
+                <>
+                  <button
+                    onClick={() => setCurrentPage(1)}
+                    className="px-3 py-2 border rounded text-gray-600 border-gray-600 hover:bg-sky-200"
+                  >
+                    1
+                  </button>
+                  {startPage > 2 && <span className="px-2">...</span>}
+                </>
+              )}
+
+              {visiblePages.map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`px-3 py-2 border rounded text-gray-600 border-gray-600
+                              ${
+                                currentPage === page
+                                  ? "bg-sky-500 text-white border-sky-500"
+                                  : "hover:bg-sky-200"
+                              }
+                              `}
+                >
+                  {page}
+                </button>
+              ))}
+
+              {endPage < totalPages && (
+                <>
+                  {endPage < totalPages - 1 && (
+                    <span className="px-2">...</span>
+                  )}
+                  <button
+                    onClick={() => setCurrentPage(totalPages)}
+                    className="px-3 py-2 border rounded text-gray-600 border-gray-600 hover:bg-sky-200"
+                  >
+                    {totalPages}
+                  </button>
+                </>
+              )}
+
+              <button
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(p + 1, totalPages))
+                }
+                disabled={currentPage === totalPages}
+                className="px-3 py-2 border rounded disabled:opacity-40 text-gray-500 border-gray-500 hover:bg-sky-200"
+              >
+                ▶
+              </button>
             </div>
           </div>
         </div>
