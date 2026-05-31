@@ -36,7 +36,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
         ${
           property.destacado === true
             ? "outline-4 outline-sky-400/50 shadow-sky-500/75 shadow-md/75 font-semibold "
-            : "outline-2 outline-gray-400/30"
+            : "outline-1 outline-gray-400/30"
         }
       `}
     >
@@ -54,8 +54,8 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
             {property.fotos.map((img, index) => (
               <img
                 key={index}
-                src={img}
-                alt={`slide-${index}`}
+                src={property.fotos?.[index]}
+                alt={`slide-${img}`}
                 className="w-full h-full object-cover flex-shrink-0"
               />
             ))}
@@ -69,13 +69,13 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
                 </div>
               )}
 
-              {property.precioVenta !== "" && (
+              {property.operaciones.includes("venta") && (
                 <div className="rounded-sm shadow-md/30 bg-green-600 text-white text-xs font-thin px-2 py-1">
                   VENTA
                 </div>
               )}
 
-              {property.precioAlquiler !== "" && (
+              {property.operaciones.includes("alquiler") && (
                 <div className="rounded-sm shadow-md/30 bg-sky-600 text-white text-xs font-thin px-2 py-1">
                   ALQUILER
                 </div>
@@ -117,7 +117,7 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
               e.stopPropagation();
               prevSlide();
             }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/35 text-white px-2 py-1 h-[50px] w-[35px] rounded-md font-bold z-50"
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/85 text-sky-500 px-2 py-1 h-[50px] w-[27px] rounded-r-xl font-bold z-50 cursor-pointer"
           >
             ❮
           </button>
@@ -129,26 +129,14 @@ const PropertyCard = ({ viewMode, property, toggleFavorito }) => {
               e.stopPropagation();
               nextSlide();
             }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/35 text-white px-2 py-1 h-[50px] w-[35px] rounded-md font-bold z-50"
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/85 text-sky-500 px-2 py-1 h-[50px] w-[27px] rounded-l-xl font-bold z-50 cursor-pointer"
           >
             ❯
           </button>
 
-          {/* Indicadores */}
-          <div className="absolute bottom-2 w-full flex justify-center gap-2">
-            {property.fotos.map((_, index) => (
-              <button
-                key={index}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setCurrent(index);
-                }}
-                className={`w-2.5 h-2.5 rounded-full transition-all border-1 border-white ${
-                  current === index ? "bg-white scale-110" : "bg-white/50"
-                }`}
-              />
-            ))}
+          {/* Indicador de pagina */}
+          <div className="absolute bottom-2 left-1/2 bg-black/60 text-white text-xs px-2 py-1 rounded-md">
+            {current + 1} / {property.fotos.length}
           </div>
         </div>
       </div>

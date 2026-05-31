@@ -5,6 +5,7 @@
 body {
   font-family: "Google Sans", sans-serif;
   background-color: oklch(97% 0.014 254.604); /*Azul 50 Tailwind*/
+  overflow-y: scroll; /*Para que no se muevan los elementos del navar...*/
 }
 
 :root {

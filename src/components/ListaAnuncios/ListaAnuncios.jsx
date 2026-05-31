@@ -3,6 +3,7 @@ import PropertyCard from "../propertyCard/PropertyCard";
 import { useSearchParams } from "react-router-dom";
 import Filtro from "../Filtro/filtro";
 import { generarPropiedades } from "../../data/propiedades";
+import API from "../../services/api";
 
 export default function ListaAnuncios() {
   const [isOpenFilters, setIsOpenFilters] = useState(false);
@@ -12,6 +13,30 @@ export default function ListaAnuncios() {
   const orderRefDesktop = useRef(null);
   const orderRefMobile = useRef(null);
   const listRef = useRef(null);
+  const [selectedOperations, setSelectedOperations] = useState([]);
+  const [selectedPropertyTypes, setSelectedPropertyTypes] = useState([]);
+  const [selectedDepartments, setSelectedDepartments] = useState([]);
+
+  const toggleFilter = (value, selected, setSelected) => {
+    if (selected.includes(value)) {
+      setSelected(selected.filter((item) => item !== value));
+    } else {
+      setSelected([...selected, value]);
+    }
+  };
+
+  useEffect(() => {
+    loadProperties();
+  }, []);
+
+  const loadProperties = async () => {
+    try {
+      const res = await API.get("/properties");
+      setProperties(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const toggleFavorito = (id) => {
     setProperties((prev) =>
@@ -70,44 +95,78 @@ export default function ListaAnuncios() {
 
   //TODO: Obtener con un fetch
   const tipoOperaciones = [
-    { codigo: 1, descripcion: "Venta", cantidad: 550 },
-    { codigo: 2, descripcion: "Alquiler", cantidad: 300 },
-    { codigo: 3, descripcion: "Alquiler temporada", cantidad: 150 },
-    { codigo: 4, descripcion: "Alquiler anual", cantidad: 3 },
+    { campo: "venta", descripcion: "Venta", cantidad: 550 },
+    { campo: "alquiler", descripcion: "Alquiler", cantidad: 300 },
+    { campo: "temporada", descripcion: "Alquiler temporada", cantidad: 150 },
+    { campo: "proyecto", descripcion: "Proyecto", cantidad: 3 },
   ];
 
   //TODO: Obtener con un fetch
   const tipoPropiedades = [
-    { codigo: 1, descripcion: "Casa", cantidad: 5 },
-    { codigo: 2, descripcion: "Apartamento", cantidad: 15 },
-    { codigo: 3, descripcion: "Terreno", cantidad: 32 },
-    { codigo: 4, descripcion: "Local comercial", cantidad: 12 },
-    { codigo: 5, descripcion: "Oificina", cantidad: 6 },
-    { codigo: 6, descripcion: "Chacra", cantidad: 8 },
+    { campo: 1, descripcion: "Casa", cantidad: 5 },
+    { campo: 2, descripcion: "Apartamento", cantidad: 15 },
+    { campo: 3, descripcion: "Terreno", cantidad: 32 },
+    { campo: 4, descripcion: "Local comercial", cantidad: 12 },
+    { campo: 5, descripcion: "Oificina", cantidad: 6 },
+    { campo: 6, descripcion: "Chacra", cantidad: 8 },
   ];
 
   //TODO: Obtener con un fetch
   const departamento = [
-    { codigo: 1, descripcion: "Montevideo", cantidad: 5 },
-    { codigo: 2, descripcion: "Canelones", cantidad: 15 },
-    { codigo: 3, descripcion: "Rocha", cantidad: 32 },
-    { codigo: 4, descripcion: "Maldonado", cantidad: 12 },
-    { codigo: 5, descripcion: "San Jose", cantidad: 6 },
-    { codigo: 6, descripcion: "Artigas", cantidad: 8 },
+    { campo: 1, descripcion: "Montevideo", cantidad: 5 },
+    { campo: 2, descripcion: "Canelones", cantidad: 15 },
+    { campo: 3, descripcion: "Rocha", cantidad: 32 },
+    { campo: 4, descripcion: "Maldonado", cantidad: 12 },
+    { campo: 5, descripcion: "San Jose", cantidad: 6 },
+    { campo: 6, descripcion: "Artigas", cantidad: 8 },
   ];
 
-  const [properties, setProperties] = useState(generarPropiedades(2000));
+  //const [properties, setProperties] = useState(generarPropiedades(2000));
+  const [properties, setProperties] = useState([]);
   const [params] = useSearchParams();
   const operacion = params.get("operacion");
+
+  useEffect(() => {
+    if (operacion) {
+      setSelectedOperations([operacion]);
+    } else {
+      setSelectedOperations([]);
+    }
+  }, [operacion]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
   const indexOfLastProperty = currentPage * itemsPerPage;
   const indexOfFirstProperty = indexOfLastProperty - itemsPerPage;
 
-  const filteredProperties = properties.filter((prop) =>
-    prop.operaciones.includes(operacion)
-  );
+  const filteredProperties = properties.filter((prop) => {
+    // filtro URL venta/alquiler
+    const matchesOperacionUrl =
+      !operacion || prop.operaciones?.includes(operacion);
+
+    // filtro checkbox operaciones
+    const matchesSelectedOperations =
+      selectedOperations.length === 0 ||
+      prop.operaciones?.some((op) => selectedOperations.includes(op));
+
+    // filtro tipo propiedad
+    const matchesPropertyType =
+      selectedPropertyTypes.length === 0 ||
+      selectedPropertyTypes.includes(prop.tipoPropiedad);
+
+    // filtro departamento
+    const matchesDepartment =
+      selectedDepartments.length === 0 ||
+      selectedDepartments.includes(prop.departamento);
+
+    return (
+      matchesOperacionUrl &&
+      matchesSelectedOperations &&
+      matchesPropertyType &&
+      matchesDepartment
+    );
+  });
 
   const currentProperties = filteredProperties.slice(
     indexOfFirstProperty,
@@ -276,9 +335,38 @@ export default function ListaAnuncios() {
           `}
           >
             <div className="flex flex-col gap-3 mb-3">
-              <Filtro title="Tipo de operación" options={tipoOperaciones} />
-              <Filtro title="Tipo de propiedad" options={tipoPropiedades} />
-              <Filtro title="Departamentos" options={departamento} />
+              <Filtro
+                title="Tipo de operación"
+                options={tipoOperaciones}
+                selected={selectedOperations}
+                onToggle={(value) =>
+                  toggleFilter(value, selectedOperations, setSelectedOperations)
+                }
+              />
+              <Filtro
+                title="Tipo de propiedad"
+                options={tipoPropiedades}
+                selected={selectedPropertyTypes}
+                onToggle={(value) =>
+                  toggleFilter(
+                    value,
+                    selectedPropertyTypes,
+                    setSelectedPropertyTypes
+                  )
+                }
+              />
+              <Filtro
+                title="Departamentos"
+                options={departamento}
+                selected={selectedDepartments}
+                onToggle={(value) =>
+                  toggleFilter(
+                    value,
+                    selectedDepartments,
+                    setSelectedDepartments
+                  )
+                }
+              />
             </div>
           </div>
           {/* Listado */}
@@ -305,7 +393,7 @@ export default function ListaAnuncios() {
               <button
                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-2 border rounded disabled:opacity-40 text-gray-600 border-gray-600 hover:bg-sky-200"
+                className="px-3 py-2 border rounded disabled:opacity-40 text-gray-600 border-gray-600 hover:bg-sky-200 cursor-pointer"
               >
                 ◀
               </button>
@@ -314,7 +402,7 @@ export default function ListaAnuncios() {
                 <>
                   <button
                     onClick={() => setCurrentPage(1)}
-                    className="px-3 py-2 border rounded text-gray-600 border-gray-600 hover:bg-sky-200"
+                    className="px-3 py-2 border rounded text-gray-600 border-gray-600 hover:bg-sky-200 cursor-pointer"
                   >
                     1
                   </button>
@@ -326,7 +414,7 @@ export default function ListaAnuncios() {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`px-3 py-2 border rounded text-gray-600 border-gray-600
+                  className={`px-3 py-2 border rounded text-gray-600 border-gray-600 cursor-pointer
                               ${
                                 currentPage === page
                                   ? "bg-sky-500 text-white border-sky-500"
@@ -345,7 +433,7 @@ export default function ListaAnuncios() {
                   )}
                   <button
                     onClick={() => setCurrentPage(totalPages)}
-                    className="px-3 py-2 border rounded text-gray-600 border-gray-600 hover:bg-sky-200"
+                    className="px-3 py-2 border rounded text-gray-600 border-gray-600 hover:bg-sky-200 cursor-pointer"
                   >
                     {totalPages}
                   </button>
@@ -357,7 +445,7 @@ export default function ListaAnuncios() {
                   setCurrentPage((p) => Math.min(p + 1, totalPages))
                 }
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 border rounded disabled:opacity-40 text-gray-500 border-gray-500 hover:bg-sky-200"
+                className="px-3 py-2 border rounded disabled:opacity-40 text-gray-500 border-gray-500 hover:bg-sky-200 cursor-pointer"
               >
                 ▶
               </button>

@@ -15,6 +15,8 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const loginLink = { id: 0, title: "Login", to: "/Login" };
+
   const navbarLinks = [
     {
       id: 1,
@@ -158,9 +160,8 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Redes */}
         <div className="hidden lg:block">
-          <button
+          {/* <button
             className="
               px-3
               py-2
@@ -177,7 +178,24 @@ const Navbar = () => {
           >
             <ProfileIcon className="inline-block w-5 h-5 text-white mr-2 drop-shadow-md/40" />
             Ingresar
-          </button>
+          </button> */}
+          <NavLink
+            to={loginLink.to}
+            className="
+                    px-2
+                    py-1
+                    rounded-md                    
+                    transition-transform 
+                    hover:scale-110 
+                    hover:bg-sky-500                
+                    transform inline-block 
+                    duration-300 
+                    text-md
+                    text-shadow-lg/30 
+                    text-white"
+          >
+            {loginLink.title}
+          </NavLink>
           <ul className="lg:hidden flex sm:space-x-8 space-x-4 text-white items-center">
             {navbarRedes.map((link) => (
               <li key={link.id}>

@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 
-export default function Filtro({ title, options }) {
+export default function Filtro({ title, options, selected, onToggle }) {
   const [open, setOpen] = useState(false);
   const visibles = options.slice(0, 3);
   const extras = options.slice(3);
@@ -12,11 +12,16 @@ export default function Filtro({ title, options }) {
       </div>
 
       <ul>
-        {visibles.map((options) => (
-          <li key={options.codigo}>
+        {visibles.map((option, index) => (
+          <li key={index}>
             <label className="flex justify-between items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-100 text-xs text-gray-600">
-              {options.descripcion} ({options.cantidad})
-              <input type="checkbox" className="accent-blue-500" />
+              {option.descripcion} ({option.cantidad})
+              <input
+                type="checkbox"
+                className="accent-blue-500"
+                checked={selected.includes(option.campo)}
+                onChange={() => onToggle(option.campo)}
+              />
             </label>
           </li>
         ))}
@@ -31,11 +36,16 @@ export default function Filtro({ title, options }) {
                                 }`}
       >
         <ul className="overflow-hidden">
-          {extras.map((options) => (
-            <li key={options.codigo}>
+          {extras.map((option, index) => (
+            <li key={index}>
               <label className="flex justify-between items-center gap-2 px-2 py-1 cursor-pointer hover:bg-gray-100 text-sm text-gray-600">
-                {options.descripcion} ({options.cantidad})
-                <input type="checkbox" className="accent-blue-500" />
+                {option.descripcion} ({option.cantidad})
+                <input
+                  type="checkbox"
+                  className="accent-blue-500"
+                  checked={selected.includes(option.campo)}
+                  onChange={() => onToggle(option.campo)}
+                />
               </label>
             </li>
           ))}
